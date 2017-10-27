@@ -1,5 +1,6 @@
 package com.notes.Dao;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,11 +11,13 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.notes.Entity.User;
 import com.notes.Util.ServiceException;
+import com.notes.Util.UTF8;
 
 //组件
 @Component
@@ -31,6 +34,7 @@ public class UserDao {
 	}
 	
 	User user =new User();
+	UTF8 utf8=new UTF8();
 	
 	//找个人信息
 	public User findUser(String account){
@@ -49,5 +53,23 @@ public class UserDao {
 		else{
 			throw new ServiceException("account","not.get.account");
 		}
+	}
+	//修改头像
+	public void changePhoto(String photo_url,User user){
+		User getuser = findUser(user.getAccount());
+		BeanUtils.copyProperties(getuser, user);
+		user.setPhoto(photo_url);
+		System.out.println(user);
+		getSession().merge(user);
+	}
+	//修改信息
+	public void changeMessage(String user_nickname,String user_province,String user_city,String user_mood,User user) throws UnsupportedEncodingException{
+		User getuser = findUser(user.getAccount());
+		BeanUtils.copyProperties(getuser, user);
+		user.setNickname(user_nickname);
+		user.setProvince(user_province);
+		user.setCity(user_city);
+		user.setMood(user_mood);
+		getSession().merge(user);
 	}
 }

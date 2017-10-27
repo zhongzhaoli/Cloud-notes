@@ -1,15 +1,31 @@
 package com.notes.Controller;
 
+import java.io.UnsupportedEncodingException;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.notes.Dao.UserDao;
+import com.notes.Entity.User;
+import com.notes.Util.BasePhoto;
+import com.notes.Util.UTF8;
 
 @EnableRedisHttpSession
 @Controller
 public class UserController {
+	
+	
+	@Autowired 
+	private UserDao userdao;
+	User user=new User();
 	
 	@ResponseBody
 	@PostMapping("/outLogin")
@@ -17,4 +33,33 @@ public class UserController {
 		req.getSession().removeAttribute("user_name");
 		return "ok";
 	}
+	
+	@ResponseBody
+    @RequestMapping(value="/user", method = RequestMethod.PUT)
+    public String uploadimg(String base_url,String change,HttpServletRequest req,String user_nickname,String user_province,String user_city,String user_mood) throws UnsupportedEncodingException{
+		String sessio_username = (String) req.getSession().getAttribute("user_name");
+		String sessio_userid = (String) req.getSession().getAttribute("user_id");
+		if(change.equals("photo")){
+			String file_name = UUID.randomUUID().toString();
+			String file_url = "src/main/resources/static/images/upload/"+file_name+".jpg";
+			String file_sql_url = "/images/upload/"+file_name+".jpg";
+		
+		
+			boolean c = BasePhoto.GenerateImage(base_url,file_url);
+			if(c){
+				user.setAccount(sessio_username);
+				user.setId(sessio_userid);
+				userdao.changePhoto(file_sql_url, user);
+				return "success";
+			}
+			return "error";
+		}
+		if(change.equals("message")){
+			user.setAccount(sessio_username);
+			user.setId(sessio_userid);
+			userdao.changeMessage(user_nickname,user_province,user_city,user_mood,user);
+			return "success";
+		}
+		return "error";
+    }
 }

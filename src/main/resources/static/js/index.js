@@ -48,3 +48,65 @@ function close_user_div(){
 		user_is_open = true;
 	}
 }
+
+
+//更换头像
+function onchan(aa){
+    var file = $(aa)[0].files[0];
+    //判断是否是图片类型
+    if (!/image\/\w+/.test(file.type)) {
+        alert("只能选择图片");
+        return false;
+    }
+    else{
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+        	var res=this.result;
+        	var rel_res=res.split(";base64,")[1];
+        	$.ajax({
+        		url:"/user",
+        		data:{"_method":"PUT","base_url":rel_res,"change":"photo"},
+        		type:'post',
+        		success:function(e){
+        			if(e==="success"){
+        				$(".user_from_photo")[0].src=res;
+        				$(".user_photo_div img")[0].src=res;
+        			}
+        			else{
+        				alert("出现未知错误");
+        			}
+        		}
+        	}) 
+        }
+    }
+}
+//更换头像
+function change_photo(){
+	if($("#input_form")[0]){
+		document.getElementById("file_photo").click();
+	}
+	else{
+		var photo_input = $("<input type='file' name='file' onchange='onchan(this)' id='file_photo' style='display:none'/>").appendTo(document.body);
+		$(photo_input).click();
+	}
+}
+//修改资料
+function change_message(a){
+	var user_nickname = $(a).parent().find("#user_nickname")[0].value;
+	var user_province = $(a).parent().find("#user_province")[0].value;
+	var user_city = $(a).parent().find("#user_city")[0].value;
+	var user_mood = $(a).parent().find("#user_mood")[0].value;
+	
+	$.ajax({
+		url:"/user",
+		data:{"_method":"PUT","change":"message","user_nickname":user_nickname,"user_province":user_province,"user_city":user_city,"user_mood":user_mood},
+		type:"post",
+		success:function(e){
+			if(e==="success"){
+				alert("修改信息成功");
+			}
+		}
+	})
+	
+}

@@ -13,6 +13,7 @@
     <script src="../static/js/jquery-1.11.3.min.js" th:src="@{/js/jquery-1.11.3.min.js}"></script>
     <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
     <script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
+    <script src="../static/js/wysiwyg.js" th:src="@{/js/wysiwyg.js}"></script>
 
 
     <!-- 编辑器 -->
@@ -45,7 +46,7 @@
                     <div class="logo_text">随记</div>
                 </span>
                 <div class="user_photo_div" th:each="item:${item}">
-                    <img src="static/images/user.jpg" alt="" th:src="${item.photo}" onclick="close_user_div()">
+                    <img id="photo" src="static/images/user.jpg" alt="" th:src="${item.photo}" onclick="close_user_div()">
                     <i class="material-icons down_pull" id="down_pull_cli" onclick="down_pull()">keyboard_arrow_down</i>
                     <ul class="sess_list" id="sess_list" style="display:none">
                         <li onclick="close_user_div()">个人信息</li>
@@ -59,7 +60,7 @@
             </div>
         </div>
     </header>
-    <div id="main">
+    <div id="main" style="width:100%;height:100%">
         <div id="sidedrawer" class="mui--no-user-select">
             <div id="sidedrawer-brand" class="mui--appbar-line-height">
                 <div class="add_table">
@@ -190,20 +191,21 @@
         </div>
         <div class="user_mb" style="display:none">
         	<div class="user_div_card" th:each="item:${item}">
-        		<img class="user_from_photo" src="../static/images/user.jpg" th:src="${item.photo}"/>
+        		<div class="close_tranf_icon" onclick="close_user_div()">+</div>
+        		<img class="user_from_photo" src="../static/images/user.jpg" th:src="${item.photo}" onclick="change_photo()"/>
         		 <div class="user_from_photo_put_div"></div>
         		 <div class="col-lg-10 col-lg-offset-1 user_input_div">
-        		 	<input type="text" placeholder="昵称" th:value="${item.nickname}"/>
+        		 	<input id="user_nickname" type="text" placeholder="昵称" th:value="${item.nickname}"/>
         		 	<span class="address_class">
-        		 		<select class="province">
+        		 		<select id="user_province" class="province">
         		 			<option th:text="${item.province}">请选择</option>
         		 		</select>
-        		 		<select class="city">
+        		 		<select id="user_city" class="city">
         		 			<option th:text="${item.city}">请选择</option>
         		 		</select>
         		 	</span>
-        			<textarea cols="30" rows="3" placeholder="个性签名" th:text="${item.mood}"></textarea>
-        			<button class="add_btn_style">保存</button>
+        			<textarea id="user_mood" cols="30" rows="3" placeholder="个性签名" th:text="${item.mood}"></textarea>
+        			<button class="add_btn_style" onclick="change_message(this)">保存</button>
         		 </div> 
         	</div>
         </div>
@@ -217,5 +219,4 @@ $('.address_class').cxSelect({          // 如果服务器不支持 .json 类型
     emptyStyle: 'block'
 });
 </script>
-
 </html>
