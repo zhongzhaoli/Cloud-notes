@@ -33,7 +33,7 @@ public class UserDao {
 		return entityManager.unwrap(Session.class);
 	}
 	
-	User user =new User();
+	User users =new User();
 	UTF8 utf8=new UTF8();
 	
 	//找个人信息
@@ -54,22 +54,25 @@ public class UserDao {
 			throw new ServiceException("account","not.get.account");
 		}
 	}
+	//查找出所有信息 并 进行覆盖
+	public void copyUser(User user){
+		User getuser = findUser(user.getAccount());
+		BeanUtils.copyProperties(getuser, users);
+	}
 	//修改头像
 	public void changePhoto(String photo_url,User user){
-		User getuser = findUser(user.getAccount());
-		BeanUtils.copyProperties(getuser, user);
+		copyUser(user);
 		user.setPhoto(photo_url);
 		System.out.println(user);
 		getSession().merge(user);
 	}
 	//修改信息
 	public void changeMessage(String user_nickname,String user_province,String user_city,String user_mood,User user) throws UnsupportedEncodingException{
-		User getuser = findUser(user.getAccount());
-		BeanUtils.copyProperties(getuser, user);
-		user.setNickname(user_nickname);
-		user.setProvince(user_province);
-		user.setCity(user_city);
-		user.setMood(user_mood);
-		getSession().merge(user);
+		copyUser(user);
+		users.setNickname(user_nickname);
+		users.setProvince(user_province);
+		users.setCity(user_city);
+		users.setMood(user_mood);
+		getSession().merge(users);
 	}
 }

@@ -34,11 +34,13 @@ public class UserController {
 		return "ok";
 	}
 	
+	//修改信息 包括头像 看关键词change
 	@ResponseBody
     @RequestMapping(value="/user", method = RequestMethod.PUT)
     public String uploadimg(String base_url,String change,HttpServletRequest req,String user_nickname,String user_province,String user_city,String user_mood) throws UnsupportedEncodingException{
 		String sessio_username = (String) req.getSession().getAttribute("user_name");
 		String sessio_userid = (String) req.getSession().getAttribute("user_id");
+		//如果是修改头像
 		if(change.equals("photo")){
 			String file_name = UUID.randomUUID().toString();
 			String file_url = "src/main/resources/static/images/upload/"+file_name+".jpg";
@@ -54,6 +56,7 @@ public class UserController {
 			}
 			return "error";
 		}
+		//如果是修改信息
 		if(change.equals("message")){
 			user.setAccount(sessio_username);
 			user.setId(sessio_userid);
