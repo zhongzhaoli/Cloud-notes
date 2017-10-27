@@ -62,9 +62,8 @@ public class UserDao {
 	//修改头像
 	public void changePhoto(String photo_url,User user){
 		copyUser(user);
-		user.setPhoto(photo_url);
-		System.out.println(user);
-		getSession().merge(user);
+		users.setPhoto(photo_url);
+		getSession().merge(users);
 	}
 	//修改信息
 	public void changeMessage(String user_nickname,String user_province,String user_city,String user_mood,User user) throws UnsupportedEncodingException{
