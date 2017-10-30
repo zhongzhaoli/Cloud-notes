@@ -71,6 +71,7 @@ function return_is_object(a,b,c){
 			if(c!=null&&c!=""){
 				$(".user_from_photo")[0].src=c;
 				$(".user_photo_div img")[0].src=c;
+				return;
 			}
 			alert(b+"成功");
 		}
