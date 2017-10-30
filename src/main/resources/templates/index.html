@@ -47,6 +47,7 @@
                 </span>
                 <div class="user_photo_div" th:each="item:${item}">
                     <img id="photo" src="static/images/user.jpg" alt="" th:src="${item.photo}" onclick="for_user_div()">
+                    <input type="hidden" id="user_id" th:name="${item.id}">
                     <i class="material-icons down_pull" id="down_pull_cli" onclick="down_pull()">keyboard_arrow_down</i>
                     <ul class="sess_list" id="sess_list" style="display:none">
                         <li onclick="for_user_div()">个人信息</li>
@@ -71,46 +72,25 @@
             </div>
             <div class="mui-divider"></div>
             <ul class="notes_ul">
-                <li class="notes_li">
+                <li class="notes_li" th:each="notes:${notes}">
                     <div class="notes_title">
                         <span>
                             <i class="material-icons notes_li_icon">font_download</i>
                         </span>
                         <!-- <span class="notes_li_title">无标题笔记</span> -->
-                        <span class="notes_li_title">{{message}}</span>
+                        <span class="notes_li_title" th:text="${notes.title}"></span>
                     </div>
                     <div class="notes_main">
-                        <span>你好啊你好啊你好啊你好啊你好啊你好啊你好啊你好啊你好啊</span>
+                        <span th:text="${notes.content}"></span>
                     </div>
                     <div class="notes_footer">
                         <div class="notes_footer_left">
-                            <span>2017-03-12</span>
+                            <span th:text="${notes.time}"></span>
                         </div>
                         <div class="notes_footer_right">
                             <span>
-                                <i class="fa fa-trash-o fa-lg"></i>
-                                <i class="fa fa-share-alt fa-lg"></i>
-                            </span>
-                        </div>
-                    </div>
-                </li>
-                <li class="notes_li">
-                    <div class="notes_title">
-                        <span>
-                            <i class="material-icons notes_li_icon">font_download</i>
-                        </span>
-                        <span class="notes_li_title">深圳技师学院技能节</span>
-                    </div>
-                    <div class="notes_main">
-                        <span>哦</span>
-                    </div>
-                    <div class="notes_footer">
-                        <div class="notes_footer_left">
-                            <span>2017-03-12</span>
-                        </div>
-                        <div class="notes_footer_right">
-                            <span>
-                                <i class="fa fa-trash-o fa-lg"></i>
+                                <input type="hidden" id="notes_id" th:name="${notes.id}">
+                                <i class="fa fa-trash-o fa-lg" onclick="delete_notes(this)"></i>
                                 <i class="fa fa-share-alt fa-lg"></i>
                             </span>
                         </div>
@@ -247,19 +227,6 @@
             ed_change.change_liClass($(this));
         });
 
-    });
-
-    $(".add_table").on("click", function(){
-        var new_li = $(".notes_ul .notes_li").last().clone();
-        var date = new ed_change.get_date();
-        $(new_li).each(function(x, e){
-            $(e).find(".notes_title .notes_li_title").text("无标题文档");
-            $(e).find(".notes_main span").text("");
-            $(e).find(".notes_footer_left span").text(date.year + "-" + date.month + "-" + date.day);
-        });
-        ed_change.change_liClass(new_li);
-        $(".notes_ul").append(new_li);
-        ed_change.li_onclick_event();
     });
 </script>
 </html>
