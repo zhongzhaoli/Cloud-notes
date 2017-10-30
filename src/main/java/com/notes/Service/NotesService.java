@@ -22,7 +22,7 @@ public class NotesService {
 	
 	Notes notes = new Notes();
 	Time time = new Time();
-	
+	 
 	//获取 用户的所有笔记 如果没有笔记顺便增加一条
 	public List findNodes_create(String a,HttpServletRequest req){
 		List note = notesdao.findAllNotes(a);
