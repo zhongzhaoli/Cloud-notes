@@ -31,7 +31,7 @@ public class NoteService {
 	NoteForm notesForm = new NoteForm();
 	
 	public Note create(NoteForm noteForm, HttpServletRequest req){
-		if(noteForm.getTitle().equals(null)){
+		if(noteForm.getTitle().equals(null)||noteForm.getTitle().equals("")){
 			note.setTitle("无标题笔记");
 		}else{
 			note.setTitle(noteForm.getTitle());

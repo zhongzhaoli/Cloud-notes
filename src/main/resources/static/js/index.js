@@ -242,5 +242,5 @@ var ed_change = {
 		o.month = ed_change.add_zero(dateObj.getMonth());
 		o.day = ed_change.add_zero(dateObj.getDate());
 		return o;
-	}
+	},
 }
