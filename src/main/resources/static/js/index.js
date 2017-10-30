@@ -3,6 +3,9 @@ var user_is_open = false;
 var opinion_is_open = false;
 var share_is_open = true;
 var is_create = false;
+var is_focus = false;
+var old_content;
+var status;
 //个人信息下拉菜单
 function down_pull(e) {
 	e = e || event;
@@ -256,5 +259,21 @@ var ed_change = {
 		o.month = ed_change.add_zero(dateObj.getMonth());
 		o.day = ed_change.add_zero(dateObj.getDate());
 		return o;
+	},
+	update: function(){
+		var id = $(".notes_li.active").find(".notes_footer_right input")[0].name;
+		var title = $(".content_title").val();
+		var content = $(".editor_input").text();
+		var status;
+		$.ajax({
+			url: "/note/"+ id,
+			data: {"_method": "put", "id": id, "title": title, "content": content},
+			type: "post",
+			success: function(e){
+				if(e === "success"){
+					old_content = $(".editor_input").text();
+				}
+			}
+		});
 	}
 }
