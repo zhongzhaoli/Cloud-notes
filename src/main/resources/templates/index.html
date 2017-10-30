@@ -226,10 +226,40 @@
 </body>
 <script src="../static/js/cxSelec/jquery.cxselect.min.js" th:src="@{/js/cxSelec/jquery.cxselect.min.js}"></script>
 <script>
-$('.address_class').cxSelect({          // 如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
-    url: "[[@{/js/cxSelec/cityData.min.json}]]",
-    selects: ['province', 'city'],  // 数组，请注意顺序
-    emptyStyle: 'block'
-});
+    $('.address_class').cxSelect({          // 如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
+        url: "[[@{/js/cxSelec/cityData.min.json}]]",
+        selects: ['province', 'city'],  // 数组，请注意顺序
+        emptyStyle: 'block'
+    });
+    $("#editor_input").on("blur", function(){
+        ed_change.editor_change_span(this);
+    });
+
+    $(".content_title").on("change", function(){
+        ed_change.input_change_span(this);
+    });
+    ed_change.input_change_span();
+    $(".notes_ul .notes_li").each(function(x, e){
+        if(x === 0){
+            $(this).addClass("active");
+        }
+        e.addEventListener("click", function(){
+            ed_change.change_liClass($(this));
+        });
+
+    });
+
+    $(".add_table").on("click", function(){
+        var new_li = $(".notes_ul .notes_li").last().clone();
+        var date = new ed_change.get_date();
+        $(new_li).each(function(x, e){
+            $(e).find(".notes_title .notes_li_title").text("无标题文档");
+            $(e).find(".notes_main span").text("");
+            $(e).find(".notes_footer_left span").text(date.year + "-" + date.month + "-" + date.day);
+        });
+        ed_change.change_liClass(new_li);
+        $(".notes_ul").append(new_li);
+        ed_change.li_onclick_event();
+    });
 </script>
 </html>
