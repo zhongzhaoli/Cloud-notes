@@ -1,7 +1,7 @@
 var is_open = false;
 var user_is_open = false;
 var opinion_is_open = false;
-var share_is_open = true;
+var share_is_open = false;
 var is_create = false;
 var is_focus = false;
 var old_content;
@@ -74,6 +74,9 @@ function for_share_div() {
 	}
 	else {
 		$("#share_mb").show();
+		if($("#share_mb").find(".share_user_div")[0].children[0] == null){
+			$("<div style='text-align:center;color:#555;width:100%;font-size:15px;padding-top:10px;'>没有分享给任何人</div>").appendTo($(".share_user_div"));
+		}
 		share_is_open = true;
 	}
 }

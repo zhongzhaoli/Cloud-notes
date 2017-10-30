@@ -91,7 +91,7 @@
                             <span>
                                 <input type="hidden" id="notes_id" th:name="${notes.id}">
                                 <i class="fa fa-trash-o fa-lg" onclick="delete_notes(this)"></i>
-                                <i class="fa fa-share-alt fa-lg"></i>
+                                <i class="fa fa-share-alt fa-lg" onclick="for_share_div()"></i>
                             </span>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
         		 </div> 
         	</div>
         </div>
-        <div class="user_mb" id="share_mb", style="display:block">
+        <div class="user_mb" id="share_mb", style="display:none">
         	<div class="share_div_card">
         	    <div class="close_tranf_icon" onclick="for_share_div()">+</div>
  				<div class="col-lg-10 col-lg-offset-1 user_input_div">
