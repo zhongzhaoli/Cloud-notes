@@ -47,7 +47,7 @@ public class NotesController {
 	
 	//删除 notes
 	@ResponseBody
-	@DeleteMapping("/notes/{id}")
+	@DeleteMapping("/note/{id}")
 	public String savenotes(@PathVariable String id){
 		List aaa = (List) notedao.findNote_id(id);
 		Note bbb = (Note) aaa.get(0);
