@@ -1,6 +1,7 @@
 var is_open = false;
 var user_is_open = false;
 var opinion_is_open = false;
+var share_is_open = true;
 var is_create = false;
 //个人信息下拉菜单
 function down_pull(e) {
@@ -62,6 +63,17 @@ function for_opinion_div() {
 		opinion_is_open = true;
 	}
 }
+//分享
+function for_share_div() {
+	if (share_is_open) {
+		$("#share_mb").hide();
+		share_is_open = false;
+	}
+	else {
+		$("#share_mb").show();
+		share_is_open = true;
+	}
+}
 //根据返回数据的类型 给予提醒
 function return_is_object(a, b, c) {
 	if (typeof (a) === "object") {
@@ -82,21 +94,23 @@ function return_is_object(a, b, c) {
 }
 //删除笔记
 function delete_notes(a) {
-	var notes_id = $(a).parent().find("input")[0].name;
-	var this_ = a
-	$.ajax({
-		url: "/notes/" + notes_id,
-		type:"post",
-		data:{"_method":"delete"},
-		success:function(e){
-			var b = return_is_object(e,"删除","");
-			if(b === "success"){
-				$(this_).parents(".notes_li").remove();
-				$(".content_title")[0].value = "";
-				$("#editor")[0].innerHTML = "";
+	if(confirm("你确定要删除此笔记吗？")){
+		var notes_id = $(a).parent().find("input")[0].name;
+		var this_ = a
+		$.ajax({
+			url: "/notes/" + notes_id,
+			type:"post",
+			data:{"_method":"delete"},
+			success:function(e){
+				var b = return_is_object(e,"删除","");
+				if(b === "success"){
+					$(this_).parents(".notes_li").remove();
+					$(".content_title")[0].value = "";
+					$("#editor")[0].innerHTML = "";
+				}
 			}
-		}
-	})
+		})
+	}
 }
 //创建笔记 ajax
 function create_notes_ajax(content) {
