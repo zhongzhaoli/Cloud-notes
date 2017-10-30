@@ -162,7 +162,7 @@
                     </div>
                     <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
                     <div class="save">
-                        <button type="button" class="btn">保存</button>
+                        <button type="button" class="btn save_button">保存</button>
                     </div>
                 </div>
 
@@ -211,12 +211,26 @@
         selects: ['province', 'city'],  // 数组，请注意顺序
         emptyStyle: 'block'
     });
-    $(".editor_input").on("blur", function(){
-        ed_change.editor_change_span(this);
+    $(".save_button").on("click", function(){
+        ed_change.update();
+    })
+    $(".editor_input").on("focus", function(){
+        is_focus = true;
+        old_content = $(".editor_input").text();
+    })
+    .on("blur", function(){
+        if(old_content === $(".editor_input").text())
+            return;
+        if(is_focus){
+            ed_change.editor_change_span(this);
+            ed_change.update();
+        }
+        is_focus = false;
     });
 
     $(".content_title").on("change", function(){
         ed_change.input_change_span(this);
+		ed_change.update();
     });
     ed_change.input_change_span();
     $(".notes_ul .notes_li").each(function(x, e){

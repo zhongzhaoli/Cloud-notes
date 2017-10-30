@@ -60,6 +60,6 @@ public class NotesController {
 	@ResponseBody
 	public String update(HttpServletRequest request,@PathVariable String id, String title, String content){
 		noteService.update(id, title, content);
-		return null;
+		return "success";
 	}
 }
