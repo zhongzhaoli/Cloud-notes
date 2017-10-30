@@ -104,7 +104,7 @@ function delete_notes(a) {
 		var notes_id = $(a).parent().find("input")[0].name;
 		var this_ = a
 		$.ajax({
-			url: "/notes/" + notes_id,
+			url: "/note/" + notes_id,
 			type:"post",
 			data:{"_method":"delete"},
 			success:function(e){
@@ -266,7 +266,7 @@ var ed_change = {
 	update: function(){
 		var id = $(".notes_li.active").find(".notes_footer_right input")[0].name;
 		var title = $(".content_title").val();
-		var content = $(".editor_input").text();
+		var content = $(".editor_input")[0].innerHTML;
 		var status;
 		$.ajax({
 			url: "/note/"+ id,
