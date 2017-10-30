@@ -44,7 +44,7 @@ public class UserController {
 		if(change.equals("photo")){
 			String file_name = UUID.randomUUID().toString();
 			String file_url = "src/main/resources/static/images/upload/"+file_name+".jpg";
-			String file_sql_url = "/images/upload/"+file_name+".jpg";
+			String file_sql_url = "/photo/"+file_name+".jpg";
 		
 		
 			boolean c = BasePhoto.GenerateImage(base_url,file_url);
@@ -65,4 +65,5 @@ public class UserController {
 		}
 		return "error";
     }
+	
 }

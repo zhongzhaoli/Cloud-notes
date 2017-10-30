@@ -32,6 +32,7 @@ public class IndexCollter {
 		if(a!=null&&b!=null){
 			User he = userdao.findUser(a);
 			model.addAttribute("item", he);
+			model.addAttribute("sessionuser", user.getAccount());
 			return "index";
 		}
 		else{

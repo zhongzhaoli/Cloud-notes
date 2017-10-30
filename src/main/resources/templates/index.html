@@ -46,12 +46,12 @@
                     <div class="logo_text">随记</div>
                 </span>
                 <div class="user_photo_div" th:each="item:${item}">
-                    <img id="photo" src="static/images/user.jpg" alt="" th:src="${item.photo}" onclick="close_user_div()">
+                    <img id="photo" src="static/images/user.jpg" alt="" th:src="${item.photo}" onclick="for_user_div()">
                     <i class="material-icons down_pull" id="down_pull_cli" onclick="down_pull()">keyboard_arrow_down</i>
                     <ul class="sess_list" id="sess_list" style="display:none">
-                        <li onclick="close_user_div()">个人信息</li>
+                        <li onclick="for_user_div()">个人信息</li>
                         <li class="hr_rr"></li>
-                        <li>意见反馈</li>
+                        <li onclick="for_opinion_div()">意见反馈</li>
                         <li>用户满意度调查</li>
                         <li class="hr_rr"></li>
                         <li onclick="outLogin()">退出登录</li>
@@ -189,9 +189,9 @@
                 </div>
             </div>
         </div>
-        <div class="user_mb" style="display:none">
+        <div class="user_mb" id="user_mb" style="display:none">
         	<div class="user_div_card" th:each="item:${item}">
-        		<div class="close_tranf_icon" onclick="close_user_div()">+</div>
+        		<div class="close_tranf_icon" onclick="for_user_div()">+</div>
         		<img class="user_from_photo" src="../static/images/user.jpg" th:src="${item.photo}" onclick="change_photo()"/>
         		 <div class="user_from_photo_put_div"></div>
         		 <div class="col-lg-10 col-lg-offset-1 user_input_div">
@@ -206,6 +206,17 @@
         		 	</span>
         			<textarea id="user_mood" cols="30" rows="3" placeholder="个性签名" th:text="${item.mood}"></textarea>
         			<button class="add_btn_style" onclick="change_message(this)">保存</button>
+        		 </div> 
+        	</div>
+        </div>
+        <div class="user_mb" id="opinion_mb" style="display:none">
+        	<div class="opinion_div_card">
+        	    <div class="close_tranf_icon" onclick="for_opinion_div()">+</div>
+ 				<div class="col-lg-10 col-lg-offset-1 user_input_div">
+ 				    <div class="opinion_from_photo_put_div"></div>
+        		 	<input id="user_name" type="text" placeholder="用户名" disabled th:value="${sessionuser}"/>
+        			<textarea id="user_opinion" cols="30" rows="5" placeholder="对随记的意见与建议"></textarea>
+        			<button class="add_btn_style" onclick="sent_opinion(this)">发送</button>
         		 </div> 
         	</div>
         </div>

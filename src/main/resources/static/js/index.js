@@ -1,5 +1,6 @@
 var is_open=false;
 var user_is_open=false;
+var opinion_is_open=false;
 //个人信息下拉菜单
 function down_pull(e){
 	e = e || event;
@@ -37,20 +38,30 @@ $(document).ready(function () {
     	(is_open) ? list_init() : is_open=false;
     });
 });
-//关闭个人信息
-function close_user_div(){
+//个人信息
+function for_user_div(){
 	if(user_is_open){
-		$(".user_mb").hide();
+		$("#user_mb").hide();
 		user_is_open = false;
 	}
 	else{
-		$(".user_mb").show();
+		$("#user_mb").show();
 		user_is_open = true;
 	}
 }
+//意见反馈
+function for_opinion_div(){
+	if(opinion_is_open){
+		$("#opinion_mb").hide();
+		opinion_is_open = false;
+	}
+	else{
+		$("#opinion_mb").show();
+		opinion_is_open = true;
+	}
+}
 
-
-//更换头像
+//更换头像 ajax
 function onchan(aa){
     var file = $(aa)[0].files[0];
     //判断是否是图片类型
@@ -81,7 +92,7 @@ function onchan(aa){
         }
     }
 }
-//更换头像
+//更换头像  file显示
 function change_photo(){
 	if($("#input_form")[0]){
 		document.getElementById("file_photo").click();
@@ -108,5 +119,18 @@ function change_message(a){
 			}
 		}
 	})
-	
+}
+//反馈ajax
+function sent_opinion(z){
+	var opinion = $(z).parent().find("#user_opinion")[0].value;
+	$.ajax({
+		url:"/opinion",
+		data:{"opinions":opinion},
+		type:"post",
+		success:function(e){
+			if(e==="success"){
+				alert("谢谢你的反馈");
+			}
+		}
+	})
 }
