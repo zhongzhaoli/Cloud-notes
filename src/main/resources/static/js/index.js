@@ -140,3 +140,56 @@ function sent_opinion(z){
 		}
 	})
 }
+//编辑区赋给li
+var ed_change = {
+  //编辑区内容赋给li
+  editor_change_span : function(e){
+    $(".notes_li.active").find(".notes_main span").text(e.innerHTML);
+  },
+  //标题的内容赋给li
+  input_change_span : function(e){
+    if(e){
+        ($(e).val() === "") ? $(e).val($(".notes_li.active").find(".notes_li_title").text()) :
+            $(".notes_li.active").find(".notes_li_title").text(e.value);
+    }else{
+        var note_title = $(".notes_li").first().find(".notes_li_title");
+        $(".content_title").val($(note_title).text());
+        var note_cont = $(".notes_li").first().find(".notes_main span");
+        $(".editor_input").text($(note_cont).text());
+    }
+  },
+  //li的onclick
+  li_onclick_event : function(){
+    $(".notes_ul .notes_li").each(function(x,e){
+        e.addEventListener("click", function(){
+          ed_change.change_liClass($(this));
+        });
+    });
+  },
+  //li的onclick执行的函数
+  change_liClass : function(that){
+    $(".notes_ul .notes_li").each(function(x, e){
+        //首先删除每个li的class
+        $(e).removeClass("active");
+    });
+    //给选中的li添加class
+    $(that).addClass("active");
+    var old_title = $(that).find(".notes_li_title");
+    var old_cont = $(that).find(".notes_main span");
+    $(".content_title").val($(old_title).text());
+    $(".editor_input").text($(old_cont).text());
+  },
+  //日期不足10补全0
+  add_zero : function(x){
+    return (parseInt(x) < 10) ? parseInt(x) + 1 : x;
+  },
+  //获取当前年月日
+  get_date : function(){
+    var o = {};
+    var dateObj = new Date();
+    o.year = dateObj.getFullYear();
+    o.month = ed_change.add_zero(dateObj.getMonth());
+    o.day = ed_change.add_zero(dateObj.getDate());
+    return o;
+  }
+}
