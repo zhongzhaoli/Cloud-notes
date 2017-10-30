@@ -16,11 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.notes.Entity.Notes;
+import com.notes.Entity.Note;
 import com.notes.Entity.User;
 import com.notes.Service.NoteService;
-import com.notes.Service.NotesService;
-import com.notes.Dao.NotesDao;
+import com.notes.Dao.NoteDao;
 import com.notes.Dao.UserDao;
 
 @EnableRedisHttpSession
@@ -29,16 +28,12 @@ public class IndexCollter {
 
 	@Autowired 
 	private UserDao userdao;
-	@Autowired
-	private NotesDao notesdao;
-	@Autowired
-	private NotesService notesservice;
 	
 	@Autowired
 	private NoteService noteService;
 	
 	User user=new User();
-	Notes notes = new Notes();
+	Note notes = new Note();
 	
 	//首页
 	@GetMapping("/index")
@@ -48,7 +43,7 @@ public class IndexCollter {
 		user.setAccount(a);
 		if(a != null && b != null){
 			User he = userdao.findUser(a);
-			List not = notesservice.findNodes_create(a,req);
+			List not = noteService.findNode_create(a, req);
 			model.addAttribute("item", he);
 			model.addAttribute("sessionuser", user.getAccount());
 			model.addAttribute("notes",not);
@@ -58,18 +53,5 @@ public class IndexCollter {
 			return "noLogin";
 		}
 	}
-	//创建笔记
-	@PostMapping("/create")
-	@ResponseBody
-	public String create(NoteForm noteForm){
-		noteService.create(noteForm);
-		return null;
-	}
 	
-	@RequestMapping(value = "/note/{id}", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(HttpServletRequest request,@PathVariable String id, String title, String content){
-		noteService.update(id, title, content);
-		return null;
-	}
 }

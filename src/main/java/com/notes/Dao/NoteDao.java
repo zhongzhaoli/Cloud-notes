@@ -37,8 +37,20 @@ public class NoteDao {
 	}
 	
 	Note notes = new Note();
-	
-	public Note findNote(String id){
+	//查找所有的笔记(通过用户名)
+	public List findAllNotes(String a){
+		 DetachedCriteria dc = DetachedCriteria.forClass(Note.class); //离线查询
+		 dc.add(Property.forName("username").eq(a));
+		 Criteria criteria = dc.getExecutableCriteria(getSession());
+		 List list = criteria.list();
+		 if(list != null && list.size() > 0){
+			 return list;
+		 }
+		 else{
+			 return null;
+		 }
+	}
+	public Note findNote_id(String id){
 		if(!id.equals(null)){
 			DetachedCriteria dc = DetachedCriteria.forClass(Note.class);
 			dc.add(Property.forName("id").eq(id));
@@ -55,15 +67,18 @@ public class NoteDao {
 	}
 	
 	public void copyNote(Note note){
-		Note getnote = findNote(note.getId());
+		Note getnote = findNote_id(note.getId());
 		BeanUtils.copyProperties(getnote, notes);
 	}
 	
-	public void save(Note note){
+	public void createNote(Note note){
 		getSession().save(note);
 	}
-	
-	public void update(Note note, String title, String content){
+	//删除笔记
+	public void deleteNote(Note notes){
+		getSession().remove(getSession().merge(notes));
+	}
+	public void updateNote(Note note, String title, String content){
 		copyNote(note);
 		notes.setTitle(title);
 		notes.setContent(content);
