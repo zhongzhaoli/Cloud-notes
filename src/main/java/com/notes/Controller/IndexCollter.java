@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.notes.Entity.Notes;
 import com.notes.Entity.User;
 import com.notes.Service.NoteService;
+import com.notes.Service.NotesService;
+import com.notes.Dao.NotesDao;
 import com.notes.Dao.UserDao;
 
 @EnableRedisHttpSession
@@ -26,11 +29,16 @@ public class IndexCollter {
 
 	@Autowired 
 	private UserDao userdao;
+	@Autowired
+	private NotesDao notesdao;
+	@Autowired
+	private NotesService notesservice;
 	
 	@Autowired
 	private NoteService noteService;
 	
 	User user=new User();
+	Notes notes = new Notes();
 	
 	//首页
 	@GetMapping("/index")
@@ -40,8 +48,10 @@ public class IndexCollter {
 		user.setAccount(a);
 		if(a != null && b != null){
 			User he = userdao.findUser(a);
+			List not = notesservice.findNodes_create(a,req);
 			model.addAttribute("item", he);
 			model.addAttribute("sessionuser", user.getAccount());
+			model.addAttribute("notes",not);
 			return "index";
 		}
 		else{
