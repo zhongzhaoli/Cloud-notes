@@ -50,14 +50,14 @@ public class NoteDao {
 			 return null;
 		 }
 	}
-	public Note findNote_id(String id){
+	public List findNote_id(String id){
 		if(!id.equals(null)){
 			DetachedCriteria dc = DetachedCriteria.forClass(Note.class);
 			dc.add(Property.forName("id").eq(id));
 			Criteria criteria = dc.getExecutableCriteria(getSession());
 			List list = criteria.list();
 			if(list != null && list.size() > 0){
-				return (Note)list.get(0);
+				return list;
 			}else{
 				return null;	
 			}
@@ -67,8 +67,8 @@ public class NoteDao {
 	}
 	
 	public void copyNote(Note note){
-		Note getnote = findNote_id(note.getId());
-		BeanUtils.copyProperties(getnote, notes);
+		List getnote = findNote_id(note.getId());
+		BeanUtils.copyProperties((Note) getnote.get(0), notes);
 	}
 	
 	public void createNote(Note note){
