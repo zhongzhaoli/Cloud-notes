@@ -29,7 +29,7 @@ public class IndexCollter {
 		String a = (String) req.getSession().getAttribute("user_name");
 		String b = (String) req.getSession().getAttribute("user_id");
 		user.setAccount(a);
-		if(a!=null&&b!=null){
+		if(a != null && b != null){
 			User he = userdao.findUser(a);
 			model.addAttribute("item", he);
 			model.addAttribute("sessionuser", user.getAccount());

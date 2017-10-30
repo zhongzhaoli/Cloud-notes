@@ -33,17 +33,17 @@ public class UserDao {
 		return entityManager.unwrap(Session.class);
 	}
 	
-	User users =new User();
-	UTF8 utf8=new UTF8();
+	User users = new User();
+	UTF8 utf8 = new UTF8();
 	
 	//找个人信息
 	public User findUser(String account){
-		if(account!=null){
-			 DetachedCriteria dc=DetachedCriteria.forClass(User.class); //离线查询
+		if(account != null){
+			 DetachedCriteria dc = DetachedCriteria.forClass(User.class); //离线查询
 			 dc.add(Property.forName("account").eq(account));
-			 Criteria criteria=dc.getExecutableCriteria(getSession());
-			 List list=criteria.list();
-			 if(list!=null&&list.size()>0){
+			 Criteria criteria = dc.getExecutableCriteria(getSession());
+			 List list = criteria.list();
+			 if(list != null && list.size() > 0){
 				 return (User)list.get(0);
 			 }
 			 else{

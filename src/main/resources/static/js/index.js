@@ -60,7 +60,22 @@ function for_opinion_div(){
 		opinion_is_open = true;
 	}
 }
-
+//根据返回数据的类型 给予提醒
+function return_is_object(a,b,c){
+	if(typeof(a)==="object"){
+		alert(a.message);
+		return;
+	}
+	if(typeof(a)==="string"){
+		if(a==="success"){
+			if(c!=null&&c!=""){
+				$(".user_from_photo")[0].src=c;
+				$(".user_photo_div img")[0].src=c;
+			}
+			alert(b+"成功");
+		}
+	}
+}
 //更换头像 ajax
 function onchan(aa){
     var file = $(aa)[0].files[0];
@@ -80,13 +95,7 @@ function onchan(aa){
         		data:{"_method":"PUT","base_url":rel_res,"change":"photo"},
         		type:'post',
         		success:function(e){
-        			if(e==="success"){
-        				$(".user_from_photo")[0].src=res;
-        				$(".user_photo_div img")[0].src=res;
-        			}
-        			else{
-        				alert("出现未知错误");
-        			}
+        			return_is_object(e,"个人头像修改",res);
         		}
         	}) 
         }
@@ -114,9 +123,7 @@ function change_message(a){
 		data:{"_method":"PUT","change":"message","user_nickname":user_nickname,"user_province":user_province,"user_city":user_city,"user_mood":user_mood},
 		type:"post",
 		success:function(e){
-			if(e==="success"){
-				alert("修改信息成功");
-			}
+			return_is_object(e,"个人信息修改","");
 		}
 	})
 }
@@ -128,9 +135,7 @@ function sent_opinion(z){
 		data:{"opinions":opinion},
 		type:"post",
 		success:function(e){
-			if(e==="success"){
-				alert("谢谢你的反馈");
-			}
+			return_is_object(e,"提交反馈","");
 		}
 	})
 }

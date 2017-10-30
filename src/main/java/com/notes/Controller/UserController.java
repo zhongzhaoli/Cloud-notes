@@ -17,6 +17,7 @@ import com.notes.Dao.UserDao;
 import com.notes.Entity.User;
 import com.notes.Util.BasePhoto;
 import com.notes.Util.UTF8;
+import com.notes.Util.ServiceException;
 
 @EnableRedisHttpSession
 @Controller
@@ -54,7 +55,7 @@ public class UserController {
 				userdao.changePhoto(file_sql_url, user);
 				return "success";
 			}
-			return "error";
+			throw new ServiceException("photo.create.error");
 		}
 		//如果是修改信息
 		if(change.equals("message")){
@@ -63,7 +64,7 @@ public class UserController {
 			userdao.changeMessage(user_nickname,user_province,user_city,user_mood,user);
 			return "success";
 		}
-		return "error";
+		throw new ServiceException("message.create.error");
     }
 	
 }
