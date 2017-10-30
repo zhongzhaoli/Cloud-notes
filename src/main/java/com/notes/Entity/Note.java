@@ -5,22 +5,25 @@ import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.aspectj.weaver.AjAttribute.PrivilegedAttribute;
+
 @Entity
-public class Notes {
+public class Note {
 	@Id
 	private String id;
 	private String title;
 	private String content;
 	private String username;
 	private String userid;
+	private String sharelist;
+	private String time;
+
 	public String getUserid() {
 		return userid;
 	}
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	private String sharelist;
-	private String time;
 	public String getId() {
 		return id;
 	}
@@ -54,8 +57,8 @@ public class Notes {
 	public String getTime() {
 		return time;
 	}
-	public void setTime(String time2) {
-		this.time = time2;
+	public void setTime(String time) {
+		this.time = time;
 	}
 	
 }
