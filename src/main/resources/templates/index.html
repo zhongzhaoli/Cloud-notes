@@ -64,7 +64,7 @@
         <div id="sidedrawer" class="mui--no-user-select">
             <div id="sidedrawer-brand" class="mui--appbar-line-height">
                 <div class="add_table">
-                    <span class="new_table" onclick="sbdl()">
+                    <span class="new_table">
                     	<div style="font-size: 35px;display: inline-block;position: absolute;top: 11px;left: 95px;color: #2196F3;">+</div>&nbsp;&nbsp;新文档
                     </span>
                 </div>
@@ -76,8 +76,7 @@
                         <span>
                             <i class="material-icons notes_li_icon">font_download</i>
                         </span>
-                        <!-- <span class="notes_li_title">无标题笔记</span> -->
-                        <span class="notes_li_title">{{message}}</span>
+                        <span class="notes_li_title">无标题笔记</span>
                     </div>
                     <div class="notes_main">
                         <span>你好啊你好啊你好啊你好啊你好啊你好啊你好啊你好啊你好啊</span>
@@ -254,7 +253,7 @@
         var date = new ed_change.get_date();
         $(new_li).each(function(x, e){
             $(e).find(".notes_title .notes_li_title").text("无标题文档");
-            $(e).find(".notes_main span").text("");
+            $(e).find(".notes_main span").text("随便BB几句话把");
             $(e).find(".notes_footer_left span").text(date.year + "-" + date.month + "-" + date.day);
         });
         ed_change.change_liClass(new_li);

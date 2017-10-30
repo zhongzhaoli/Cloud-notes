@@ -190,5 +190,15 @@ var ed_change = {
     o.month = ed_change.add_zero(dateObj.getMonth());
     o.day = ed_change.add_zero(dateObj.getDate());
     return o;
-  }
+  },
+  _post : function(){
+	var title = $(".content_title").val();
+	var content = $(".editor_input").text();
+	var id = "b651aa65a40c4b5f831798f94a205eb8";
+	$.ajax({
+		url:'/note/'+id,
+		data: {"_method": "PUT","id": id,"title": title, "content": content},
+		type:"post"
+	});
+  },
 }
