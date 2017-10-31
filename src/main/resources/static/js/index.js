@@ -80,6 +80,33 @@ function for_share_div() {
 		share_is_open = true;
 	}
 }
+//插入图片
+function insertphoto(z){
+	var file = $(z).parent().find("input")[0];
+	file.click();
+}
+//插入图片 onchange
+function insertphoto_onchange(aa){
+	var file = $(aa)[0].files[0];
+	//判断是否是图片类型
+	if (!/image\/\w+/.test(file.type)) {
+		alert("只能选择图片");
+		return false;
+	}
+	else{
+		var reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = function (e) {
+			var res = this.result;
+			var rel_res = res.split(";base64,")[1];
+			var src = ed_change.findimg(rel_res);
+			
+			$("<img src="+src+">").appendTo($("#editor"));
+			ed_change.editor_change_span2();
+            ed_change.update();
+		}
+	}
+}
 //根据返回数据的类型 给予提醒
 function return_is_object(a, b, c) {
 	if (typeof (a) === "object") {
@@ -138,6 +165,7 @@ function create_notes_ajax(content) {
 			ed_change.change_liClass(new_li);
 			$(".notes_ul").append(new_li);
 			ed_change.li_onclick_event();
+			
 		}
 	})
 }
@@ -217,6 +245,10 @@ var ed_change = {
 	editor_change_span: function (e) {
 		$(".notes_li.active").find(".notes_main span").text(e.innerHTML);
 	},
+	editor_change_span2:function(){
+		var inner = $("#editor")[0].innerHTML;
+		$(".notes_li.active").find(".notes_main span").text(inner);
+	},
 	//标题的内容赋给li
 	input_change_span: function (e) {
 		if (e) {
@@ -226,7 +258,8 @@ var ed_change = {
 			var note_title = $(".notes_li").first().find(".notes_li_title");
 			$(".content_title").val($(note_title).text());
 			var note_cont = $(".notes_li").first().find(".notes_main span");
-			$(".editor_input").text($(note_cont).text());
+			$(".editor_input").text();
+			ed_change.to_html($(note_cont).text());
 		}
 	},
 	//li的onclick
@@ -248,11 +281,15 @@ var ed_change = {
 		var old_title = $(that).find(".notes_li_title");
 		var old_cont = $(that).find(".notes_main span");
 		$(".content_title").val($(old_title).text());
-		$(".editor_input").text($(old_cont).text());
+		ed_change.to_html($(old_cont).text())
 	},
 	//日期不足10补全0
 	add_zero: function (x) {
 		return (parseInt(x) < 10) ? parseInt(x) + 1 : x;
+	},
+	//转html
+	to_html:function(x){
+		$("#editor").html(x);
 	},
 	//获取当前年月日
 	get_date: function () {
@@ -263,6 +300,20 @@ var ed_change = {
 		o.day = ed_change.add_zero(dateObj.getDate());
 		return o;
 	},
+	findimg:function(rel_res){
+		var a;
+		$.ajax({
+			url:"/notephoto/",
+			type:"post",
+			data:{"base_url":rel_res},
+			async:false,
+			success:function(c){
+				a = c;
+			}
+		})
+		return a;
+	},
+	//修改note
 	update: function(){
 		var id = $(".notes_li.active").find(".notes_footer_right input")[0].name;
 		var title = $(".content_title").val();

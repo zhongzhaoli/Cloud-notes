@@ -2,6 +2,7 @@ package com.notes.Entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -12,6 +13,7 @@ public class Note {
 	@Id
 	private String id;
 	private String title;
+	@Column(columnDefinition="text") 
 	private String content;
 	private String username;
 	private String userid;

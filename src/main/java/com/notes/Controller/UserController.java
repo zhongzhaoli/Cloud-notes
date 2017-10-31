@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.notes.Dao.UserDao;
 import com.notes.Entity.User;
+import com.notes.Service.PhotoService;
 import com.notes.Util.BasePhoto;
 import com.notes.Util.UTF8;
 import com.notes.Util.ServiceException;
@@ -26,6 +27,8 @@ public class UserController {
 	
 	@Autowired 
 	private UserDao userdao;
+	@Autowired
+	private PhotoService photoservice;
 	User user=new User();
 	
 	@ResponseBody
@@ -44,11 +47,8 @@ public class UserController {
 		//如果是修改头像
 		if(change.equals("photo")){
 			String file_name = UUID.randomUUID().toString();
-			String file_url = "src/main/resources/static/images/upload/"+file_name+".jpg";
 			String file_sql_url = "/photo/"+file_name+".jpg";
-		
-		
-			boolean c = BasePhoto.GenerateImage(base_url,file_url);
+			boolean c = photoservice.savephoto(base_url, "upload",file_name);
 			if(c){
 				user.setAccount(sessio_username);
 				user.setId(sessio_userid);

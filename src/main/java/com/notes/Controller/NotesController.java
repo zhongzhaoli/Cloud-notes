@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.notes.Dao.NoteDao;
 import com.notes.Entity.Note;
 import com.notes.Service.NoteService;
+import com.notes.Service.PhotoService;
 import com.notes.Util.Time;
 
 @EnableRedisHttpSession
@@ -33,6 +34,8 @@ public class NotesController {
 	private NoteDao notedao;
 	@Autowired
 	private NoteService noteService;
+	@Autowired
+	private PhotoService photoservice;
 	
 	Note notes = new Note();
 	Time time = new Time();
@@ -58,8 +61,17 @@ public class NotesController {
 	//更改
 	@PutMapping("/note/{id}")
 	@ResponseBody
-	public String update(HttpServletRequest request,@PathVariable String id, String title, String content){
-		noteService.update(id, title, content);
+	public String update(HttpServletRequest req,@PathVariable String id, String title, String content){
+		noteService.update(id,(String) title,(String) content);
 		return "success";
+	}
+	//存储note中的图片
+	@PostMapping("/notephoto/")
+	@ResponseBody
+	public String notephoto(HttpServletRequest req,String base_url){
+		String file_name = UUID.randomUUID().toString();
+		String file_sql_url = "/photonote/" + file_name + ".jpg";
+		boolean c = photoservice.savephoto(base_url, "note",file_name);
+		return file_sql_url;
 	}
 }
