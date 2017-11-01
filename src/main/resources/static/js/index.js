@@ -51,6 +51,7 @@ function change_li_innerText(){
 $(document).ready(function () {
 	create_new_notes();
 	change_li_innerText();
+	Ctrl_s_save();
 	$("body").click(function () {
 		(is_open) ? list_init() : is_open = false;
 	});
@@ -65,6 +66,18 @@ function for_user_div() {
 		$("#user_mb").show();
 		user_is_open = true;
 	}
+}
+//Ctrl+s 保存
+function Ctrl_s_save(){
+	$("body").on("keydown",function(e) {
+        var keyCode = e.keyCode || e.which || e.charCode;
+        var ctrlKey = e.ctrlKey || e.metaKey;
+        if(ctrlKey && keyCode == 83) {      
+            $(".btn.save_button")[0].click();
+            $(".btn.save_button")[0].focus();
+            e.preventDefault();
+        }
+    });
 }
 //意见反馈
 function for_opinion_div() {
@@ -169,6 +182,7 @@ function create_notes_ajax(content) {
 				$(e).find(".notes_title .notes_li_title").text("无标题文档");
 				$(e).find(".notes_main span").text("");
 				$(e).find(".notes_footer_right").find("i").first().attr("data-join","/note/" + note_id);
+				$(e).find(".notes_footer_right").find("div").first().html("");
 				$(e).find(".notes_footer_left span").text(date.year + "-" + date.month + "-" + date.day);
 			});
 			ed_change.change_liClass(new_li);
@@ -215,10 +229,10 @@ function change_photo() {
 }
 //修改资料
 function change_message(a) {
-	var user_nickname = $(a).parent().find("#user_nickname")[0].value;
-	var user_province = $(a).parent().find("#user_province")[0].value;
-	var user_city = $(a).parent().find("#user_city")[0].value;
-	var user_mood = $(a).parent().find("#user_mood")[0].value;
+	var user_nickname = $(a).parent().parent().find("#user_nickname")[0].value;
+	var user_province = $(a).parent().parent().find("#user_province")[0].value;
+	var user_city = $(a).parent().parent().find("#user_city")[0].value;
+	var user_mood = $(a).parent().parent().find("#user_mood")[0].value;
 
 	$.ajax({
 		url: "/user",
@@ -231,7 +245,7 @@ function change_message(a) {
 }
 //反馈ajax
 function sent_opinion(z) {
-	var opinion = $(z).parent().find("#user_opinion")[0].value;
+	var opinion = $(z).parent().parent().find("#user_opinion")[0].value;
 	$.ajax({
 		url: "/opinion",
 		data: { "opinions": opinion },

@@ -20,7 +20,7 @@
     <link href="../static/bootstrap-wysiwyg/external/google-code-prettify/prettify.css" th:href="@{/bootstrap-wysiwyg/external/google-code-prettify/prettify.css}"
         rel="stylesheet">
     <!-- <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="../static/bootstrap-wysiwyg/css/bootstrap-combined.no-icons.min.css" th:href="@{/bootstrap-wysiwyg/css/bootstrap-combined.no-icons.min.css}">
+<!--     <link rel="stylesheet" href="../static/bootstrap-wysiwyg/css/bootstrap-combined.no-icons.min.css" th:href="@{/bootstrap-wysiwyg/css/bootstrap-combined.no-icons.min.css}"> -->
     <link rel="stylesheet" href="../static/bootstrap-wysiwyg/css/bootstrap-responsive.min.css" th:href="@{/bootstrap-wysiwyg/css/bootstrap-responsive.min.css}">
     <link rel="stylesheet" href="../static/bootstrap-wysiwyg/css/font-awesome.css" th:href="@{/bootstrap-wysiwyg/css/font-awesome.css}">
     <script src="../static/bootstrap-wysiwyg/external/jquery-1.11.3.min.js" th:src="@{/bootstrap-wysiwyg/external/jquery-1.11.3.min.js}"></script>
@@ -46,14 +46,13 @@
                     <div class="logo_text">随记</div>
                 </span>
                 <div class="user_photo_div" th:each="item:${item}">
-                    <img id="photo" src="static/images/user.jpg" alt="" th:src="${item.photo}" onclick="for_user_div()">
+                    <img id="photo" src="static/images/user.jpg" alt="" th:src="${item.photo}" data-toggle="modal" data-target=".bs-example-modal-lg">
                     <input type="hidden" id="user_id" th:name="${item.id}">
                     <i class="material-icons down_pull" id="down_pull_cli" onclick="down_pull()">keyboard_arrow_down</i>
                     <ul class="sess_list" id="sess_list" style="display:none">
-                        <li onclick="for_user_div()">个人信息</li>
+                        <li data-toggle="modal" data-target=".bs-example-modal-lg">个人信息</li>
                         <li class="hr_rr"></li>
-                        <li onclick="for_opinion_div()">意见反馈</li>
-                        <li>用户满意度调查</li>
+                        <li data-toggle="modal" data-target=".bs-example-modal-lg2">意见反馈</li>
                         <li class="hr_rr"></li>
                         <li onclick="outLogin()">退出登录</li>
                     </ul>
@@ -91,7 +90,7 @@
                             <span>
                             	<div style="display:none" th:text="${notes.content}"></div>
                                 <i class="fa fa-trash-o fa-lg" th:data-join="@{/note/{id}(id=${notes.id})}" onclick="delete_notes(this)"></i>
-                                <i class="fa fa-share-alt fa-lg" onclick="for_share_div()"></i>
+                                <i class="fa fa-share-alt fa-lg" data-toggle="modal" data-target=".bs-example-modal-lg3"></i>
                             </span>
                         </div>
                     </div>
@@ -132,14 +131,26 @@
                     </div>
                     <div class="btn-group">
                         <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+                    </div>
+                    <div class="btn-group">
                         <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+                    </div>
+                    <div class="btn-group">
                         <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="icon-strikethrough"></i></a>
+                    </div>
+                    <div class="btn-group">
                         <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
                     </div>
                     <div class="btn-group">
                         <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>
+                    </div>
+                    <div class="btn-group">
                         <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>
+                    </div>
+                    <div class="btn-group">
                         <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="icon-indent-left"></i></a>
+                    </div>
+                    <div class="btn-group">
                         <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="icon-indent-right"></i></a>
                     </div>
                     <div class="btn-group">
@@ -156,10 +167,6 @@
                         <a class="btn" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;" onclick="insertphoto(this)"><i class="icon-picture"></i></a>
                         <input type="file" style="display:none" onchange="insertphoto_onchange(this)"/>
                     </div>
-                    <div class="btn-group">
-                        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
-                        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
-                    </div>
                     <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
                     <div class="save">
                         <button type="button" class="btn save_button">保存</button>
@@ -171,38 +178,7 @@
                 </div>
             </div>
         </div>
-        <div class="user_mb" id="user_mb" style="display:none">
-        	<div class="user_div_card" th:each="item:${item}">
-        		<div class="close_tranf_icon" onclick="for_user_div()">+</div>
-        		<img class="user_from_photo" src="../static/images/user.jpg" th:src="${item.photo}" onclick="change_photo()"/>
-        		 <div class="user_from_photo_put_div"></div>
-        		 <div class="col-lg-10 col-lg-offset-1 user_input_div">
-        		 	<input id="user_nickname" type="text" placeholder="昵称" th:value="${item.nickname}"/>
-        		 	<span class="address_class">
-        		 		<select id="user_province" class="province">
-        		 			<option th:text="${item.province}">请选择</option>
-        		 		</select>
-        		 		<select id="user_city" class="city">
-        		 			<option th:text="${item.city}">请选择</option>
-        		 		</select>
-        		 	</span>
-        			<textarea id="user_mood" cols="30" rows="3" placeholder="个性签名" th:text="${item.mood}"></textarea>
-        			<button class="add_btn_style" onclick="change_message(this)">保存</button>
-        		 </div> 
-        	</div>
-        </div>
-        <div class="user_mb" id="opinion_mb" style="display:none">
-        	<div class="opinion_div_card">
-        	    <div class="close_tranf_icon" onclick="for_opinion_div()">+</div>
- 				<div class="col-lg-10 col-lg-offset-1 user_input_div">
- 				    <div class="opinion_from_photo_put_div"></div>
-        		 	<input id="user_name" type="text" placeholder="用户名" disabled th:value="${sessionuser}"/>
-        			<textarea id="user_opinion" cols="30" rows="5" placeholder="对随记的意见与建议"></textarea>
-        			<button class="add_btn_style" onclick="sent_opinion(this)">发送</button>
-        		 </div> 
-        	</div>
-        </div>
-        <div class="user_mb" id="share_mb", style="display:none">
+        <div class="user_mb" id="share_mb" style="display:none">
         	<div class="share_div_card">
         	    <div class="close_tranf_icon" onclick="for_share_div()">+</div>
  				<div class="col-lg-10 col-lg-offset-1 user_input_div">
@@ -217,6 +193,96 @@
         	</div>
         </div>
     </div>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<img class="user_from_photo" src="../static/images/user.jpg" th:src="${item.photo}" onclick="change_photo()"/>
+      </div>
+      <form th:each="item:${item}">
+      <div class="modal-body">
+          <div class="form-group">
+            <input type="text" id="user_nickname" class="form-control" th:value="${item.nickname}" placeholder="昵称">
+          </div>
+		  <div class="form-group">
+            <span class="address_class">
+            		<select id="user_province" class="form-control province">
+                		<option th:text="${item.province}">请选择</option>
+            		</select>
+            		<select id="user_city" class="form-control city" style="margin-top:15px;">
+                		<option th:text="${item.city}">请选择</option>
+            		</select>
+            </span>
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" id="user_mood" cols="30" rows="3" th:text="${item.mood}" placeholder="个性签名"></textarea>
+          </div>
+      	</div>
+      	<div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        	<button type="button" class="btn btn-primary" onclick="change_message(this)">保存</button>
+      	</div>
+      </form>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        
+      </div>
+      <form>
+      <div class="modal-body paddi_top_0 paddi_bottom_0">
+          <div class="form-group">
+            <input type="text" id="user_nickname" class="form-control" disabled th:value="${sessionuser}">
+          </div>
+          <div class="form-group">
+          	<textarea id="user_opinion" class="form-control" cols="30" rows="5" placeholder="对随记的意见与建议"></textarea>
+          </div>
+      	</div>
+      	<div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        	<button type="button" class="btn btn-primary" onclick="sent_opinion(this)">发送</button>
+      	</div>
+      </form>
+    </div>
+    </div>
+  </div>
+</div>
+    
+    
+<div class="modal fade bs-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <form>
+      <div class="modal-body paddi_top_0 paddi_bottom_0">
+          <div class="form-group">
+            <input type="text" id="user_nickname" class="form-control" placeholder="分享的用户名">
+          </div>
+          <div class="form-group">
+          	<div class="form-control minheight"></div>
+          </div>
+      	</div>
+      	<div class="modal-footer">
+      	</div>
+      </form>
+    </div>
+    </div>
+  </div>
+</div> 
+    
 </body>
 <script src="../static/js/cxSelec/jquery.cxselect.min.js" th:src="@{/js/cxSelec/jquery.cxselect.min.js}"></script>
 <script>
@@ -254,5 +320,14 @@
         });
 
     });
+    $('#exampleModal').on('show.bs.modal', function (event) {
+    	  var button = $(event.relatedTarget) // Button that triggered the modal
+    	  var recipient = button.data('whatever') // Extract info from data-* attributes
+    	  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    	  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    	  var modal = $(this)
+    	  modal.find('.modal-title').text('New message to ' + recipient)
+    	  modal.find('.modal-body input').val(recipient)
+    	})
 </script>
 </html>

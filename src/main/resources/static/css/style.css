@@ -16,7 +16,12 @@ buttons {
     -moz-osx-font-smoothing: grayscale;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
 }
-
+h4{
+	margin:0;
+}
+textarea{
+	resize:none;
+}
 select:focus{
     border-color: rgba(82, 168, 236, 0.8);
     outline: 0;
@@ -122,7 +127,10 @@ li{
 }
 .content_main{
   width:100%;
-  height: calc(100% - 64px - 61px - 60px);
+  height: calc(100% - 64px - 61px - 44px);
+}
+.minheight{
+	min-height:200px;
 }
 #content-wrapper {
   height: 100%;
@@ -262,7 +270,22 @@ li{
   color: #fff;
   text-decoration: underline;
 }
-
+.save_button{
+	color: white;
+    background: #2196f3;
+    -webkit-transition-duration: 0.25s;
+    transition-duration: 0.25s;
+    outline:none;
+}
+.save_button:hover{
+	background-color: #47abfd;
+	color:white;
+}
+.save_button:focus{
+	background-color: #2196f3;
+	color:white;
+	outline: none;
+}
 .notes_li{
   width:100%;
   min-height:70px;
@@ -301,6 +324,7 @@ li{
     float: right;
     margin-left: 5px;
     margin-top: 5px;
+    margin-bottom: 5px;
 }
 .notes_footer{
   margin-top: 6px;
@@ -403,7 +427,7 @@ li{
 }
 .user_photo_div > .sess_list{
   width:120px;
-  height: 122px;
+  /* height: 122px; */
   background: white;
   position: absolute;
   top: 52px;
@@ -428,8 +452,9 @@ li{
   border-radius:50px;
   /* margin:auto; */
   position: relative;
+  /* position: absolute; */
   left: calc((100% - 90px)/2);
-  top: 40px;
+  /* top: 40px; */
   border: 3px #e0e0e0 solid;
   cursor:pointer;
 }
@@ -479,6 +504,12 @@ li{
   border:1px solid #e0e1e5;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
   position:relative;
+}
+.paddi_top_0{
+	padding-top:0;
+}
+.paddi_bottom_0{
+	padding-bottom:0;
 }
 .opinion_div_card{
   width:400px;
@@ -566,13 +597,13 @@ li{
   }
   .content_main {
       width: 100%;
-      height: calc(100% - 64px - 61px - 95px);
+      height: calc(100% - 64px - 61px - 44px);
   }
 }
 @media(max-width:930px){
   .content_main {
       width: 100%;
-      height: calc(100% - 64px - 61px - 95px);
+      height: calc(100% - 64px - 61px - 88px);
   }
 }
 
@@ -609,16 +640,16 @@ li{
     }
     .content_main {
         width: 100%;
-        height: calc(100% - 64px - 61px - 60px);
+        height: calc(100% - 64px - 61px - 44px);
     }
     .user_from_photo{
         width: 85px;
         height: 85px;
         border-radius: 50px;
         /* margin: auto; */
-        position: relative;
+        /* position: relative; */
         left: calc((100% - 85px)/2);
-        top: 30px;
+        top: 0px;
         border: 3px #e0e0e0 solid;
         cursor: pointer;
     }
@@ -629,19 +660,19 @@ li{
 @media (max-width:709px){
     .content_main {
         width: 100%;
-        height: calc(100% - 64px - 61px - 100px);
+        height: calc(100% - 64px - 61px - 44px);
     }
 }
 @media (max-width:650px){
     .content_main {
         width: 100%;
-        height: calc(100% - 64px - 61px - 100px);
+        height: calc(100% - 64px - 61px - 88px);
     }
 }
 @media (max-width:479px){
     .content_main {
         width: 100%;
-        height: calc(100% - 64px - 61px - 112px);
+        height: calc(100% - 64px - 61px - 70px);
     }
     #sidedrawer{
       top:56px;
@@ -679,10 +710,10 @@ li{
         width: 70px;
         height: 70px;
         border-radius: 50px;
-        /* margin: auto; */
-        position: relative;
+        margin: auto;
+        /* position: relative; */
         left: calc((100% - 70px)/2);
-        top: 15px;
+        /* top: 15px; */
         border: 3px #e0e0e0 solid;
         cursor: pointer;
     }
@@ -726,7 +757,7 @@ li{
     }
     .user_photo_div > .sess_list{
         width:120px;
-        height: 122px;
+        /* height: 122px; */
         background: white;
         position: absolute;
         top: 48px;
@@ -780,36 +811,18 @@ li{
 @media(max-width:390px){
     .content_main {
         width: 100%;
-        height: calc(100% - 64px - 61px - 112px);
+        height: calc(100% - 64px - 61px - 70px);
     }
 }
-.save button{
-  color: #fff;
-  background-color: #51b2ff !important;
-  display: inline-block;
-  margin-bottom: 0;
-  font-size: 14px;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  text-shadow: none;
-  outline: none;
+@media (max-width: 342px){
+.content_main {
+    width: 100%;
+    height: calc(100% - 64px - 61px - 114px);
 }
-.save button:hover, .save button:active, .save button:focus{
-  color: #fff;
-  background-color: #2196f3 !important;
 }
 .active{
   background-color: #f6f7f9;
+}
+.btn-group{
+	margin-bottom:5px;
 }
