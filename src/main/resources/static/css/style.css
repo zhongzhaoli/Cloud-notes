@@ -784,6 +784,7 @@ li{
     }
 }
 .save button{
+  width: 68px;
   color: #fff;
   background-color: #51b2ff !important;
   display: inline-block;

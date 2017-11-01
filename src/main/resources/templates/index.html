@@ -30,8 +30,8 @@
     <script src="../static/bootstrap-wysiwyg/external/google-code-prettify/prettify.js" th:src="@{/bootstrap-wysiwyg/external/google-code-prettify/prettify.js}"></script>
     <link href="../static/bootstrap-wysiwyg/index.css" th:href="@{/bootstrap-wysiwyg/index.css}" rel="stylesheet">
     <script src="../static/bootstrap-wysiwyg/bootstrap-wysiwyg.js" th:src="@{/bootstrap-wysiwyg/bootstrap-wysiwyg.js}"></script>
-    
-    <link href="../static/css/style.css" rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
 
 </head>
@@ -154,7 +154,7 @@
 
                     <div class="btn-group">
                         <a class="btn" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;" onclick="insertphoto(this)"><i class="icon-picture"></i></a>
-                        <input type="file" style="display:none" onchange="insertphoto_onchange(this)"/>
+                        <input type="file" style="display:none" onchange="insertphoto_onchange(this)" />
                     </div>
                     <div class="btn-group">
                         <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
@@ -172,13 +172,13 @@
             </div>
         </div>
         <div class="user_mb" id="user_mb" style="display:none">
-        	<div class="user_div_card" th:each="item:${item}">
-        		<div class="close_tranf_icon" onclick="for_user_div()">+</div>
-        		<img class="user_from_photo" src="../static/images/user.jpg" th:src="${item.photo}" onclick="change_photo()"/>
-        		 <div class="user_from_photo_put_div"></div>
-        		 <div class="col-lg-10 col-lg-offset-1 user_input_div">
-        		 	<input id="user_nickname" type="text" placeholder="昵称" th:value="${item.nickname}"/>
-        		 	<span class="address_class">
+            <div class="user_div_card" th:each="item:${item}">
+                <div class="close_tranf_icon" onclick="for_user_div()">+</div>
+                <img class="user_from_photo" src="../static/images/user.jpg" th:src="${item.photo}" onclick="change_photo()" />
+                <div class="user_from_photo_put_div"></div>
+                <div class="col-lg-10 col-lg-offset-1 user_input_div">
+                    <input id="user_nickname" type="text" placeholder="昵称" th:value="${item.nickname}" />
+                    <span class="address_class">
         		 		<select id="user_province" class="province">
         		 			<option th:text="${item.province}">请选择</option>
         		 		</select>
@@ -186,35 +186,35 @@
         		 			<option th:text="${item.city}">请选择</option>
         		 		</select>
         		 	</span>
-        			<textarea id="user_mood" cols="30" rows="3" placeholder="个性签名" th:text="${item.mood}"></textarea>
-        			<button class="add_btn_style" onclick="change_message(this)">保存</button>
-        		 </div> 
-        	</div>
+                    <textarea id="user_mood" cols="30" rows="3" placeholder="个性签名" th:text="${item.mood}"></textarea>
+                    <button class="add_btn_style" onclick="change_message(this)">保存</button>
+                </div>
+            </div>
         </div>
         <div class="user_mb" id="opinion_mb" style="display:none">
-        	<div class="opinion_div_card">
-        	    <div class="close_tranf_icon" onclick="for_opinion_div()">+</div>
- 				<div class="col-lg-10 col-lg-offset-1 user_input_div">
- 				    <div class="opinion_from_photo_put_div"></div>
-        		 	<input id="user_name" type="text" placeholder="用户名" disabled th:value="${sessionuser}"/>
-        			<textarea id="user_opinion" cols="30" rows="5" placeholder="对随记的意见与建议"></textarea>
-        			<button class="add_btn_style" onclick="sent_opinion(this)">发送</button>
-        		 </div> 
-        	</div>
+            <div class="opinion_div_card">
+                <div class="close_tranf_icon" onclick="for_opinion_div()">+</div>
+                <div class="col-lg-10 col-lg-offset-1 user_input_div">
+                    <div class="opinion_from_photo_put_div"></div>
+                    <input id="user_name" type="text" placeholder="用户名" disabled th:value="${sessionuser}" />
+                    <textarea id="user_opinion" cols="30" rows="5" placeholder="对随记的意见与建议"></textarea>
+                    <button class="add_btn_style" onclick="sent_opinion(this)">发送</button>
+                </div>
+            </div>
         </div>
-        <div class="user_mb" id="share_mb", style="display:none">
-        	<div class="share_div_card">
-        	    <div class="close_tranf_icon" onclick="for_share_div()">+</div>
- 				<div class="col-lg-10 col-lg-offset-1 user_input_div">
- 				    <div class="opinion_from_photo_put_div"></div>
-					<div class="select_user_div col-lg-12">
-						<input type="text" class="col-lg-10 col-md-10 col-sm-10 col-xs-10" placeholder="用户名">
-						<button class="col-lg-2 col-md-2 col-sm-2 col-xs-2">+</button>
-					</div>
-					<div class="share_user_div col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					</div>
-        		 </div> 
-        	</div>
+        <div class="user_mb" id="share_mb" , style="display:none">
+            <div class="share_div_card">
+                <div class="close_tranf_icon" onclick="for_share_div()">+</div>
+                <div class="col-lg-10 col-lg-offset-1 user_input_div">
+                    <div class="opinion_from_photo_put_div"></div>
+                    <div class="select_user_div col-lg-12">
+                        <input type="text" class="col-lg-10 col-md-10 col-sm-10 col-xs-10" placeholder="用户名">
+                        <button class="col-lg-2 col-md-2 col-sm-2 col-xs-2">+</button>
+                    </div>
+                    <div class="share_user_div col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
@@ -225,39 +225,38 @@
         selects: ['province', 'city'],  // 数组，请注意顺序
         emptyStyle: 'block'
     });
-    $(".save_button").on("click", function(){
+    $(".save_button").on("click", function () {
         ed_change.update();
     })
-    $(".editor_input").on("focus", function(){
+    $(".editor_input").on("focus", function () {
         is_focus = true;
         old_content = $(".editor_input").html();
     })
-    .on("blur", function(){
-        if(old_content === $(".editor_input").html())
-            return
-        if(is_focus){
-            ed_change.editor_change_span(this);
-            ed_change.update();
-        }
-        is_focus = false;
-    })
-    .on("keydown", function(){
-        ed_change.editor_change_span(this);
-    });
+        .on("blur", function () {
+            if (old_content === $(".editor_input").html())
+                return
+            if (is_focus) {
+                ed_change.editor_change_span(this);
+                ed_change.update();
+            }
+            is_focus = false;
+        });
 
-    $(".content_title").on("change", function(){
+    $(".content_title").on("change", function () {
         ed_change.input_change_span(this);
-		ed_change.update();
+        ed_change.update();
     });
     ed_change.input_change_span();
-    $(".notes_ul .notes_li").each(function(x, e){
-        if(x === 0){
+    $(".notes_ul .notes_li").each(function (x, e) {
+        if (x === 0) {
             $(this).addClass("active");
         }
-        e.addEventListener("click", function(){
+        e.addEventListener("click", function () {
             ed_change.change_liClass($(this));
         });
 
     });
+
 </script>
+
 </html>
