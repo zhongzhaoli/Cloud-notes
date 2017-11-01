@@ -140,6 +140,7 @@ function delete_notes(a) {
 					$(this_).parents(".notes_li").remove();
 					$(".content_title")[0].value = "";
 					$("#editor")[0].innerHTML = "";
+					$(".notes_ul .notes_li").first().click();
 				}
 			}
 		})
@@ -243,11 +244,11 @@ function create_new_notes() {
 var ed_change = {
 	//编辑区内容赋给li
 	editor_change_span: function (e) {
-		$(".notes_li.active").find(".notes_main span").text(e.innerHTML);
+		$(".notes_li.active").find(".notes_main span").text($(e).text());
 	},
 	editor_change_span2:function(){
-		var inner = $("#editor")[0].innerHTML;
-		$(".notes_li.active").find(".notes_main span").text(inner);
+		var inner = $("#editor");
+		$(".notes_li.active").find(".notes_main span").text($(inner).text());
 	},
 	//标题的内容赋给li
 	input_change_span: function (e) {

@@ -230,14 +230,19 @@
     })
     $(".editor_input").on("focus", function(){
         is_focus = true;
-        old_content = $(".editor_input").text();
+        old_content = $(".editor_input").html();
     })
     .on("blur", function(){
+        if(old_content === $(".editor_input").html())
+            return
         if(is_focus){
             ed_change.editor_change_span(this);
             ed_change.update();
         }
         is_focus = false;
+    })
+    .on("keydown", function(){
+        ed_change.editor_change_span(this);
     });
 
     $(".content_title").on("change", function(){
