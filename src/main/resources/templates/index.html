@@ -306,6 +306,11 @@
                 ed_change.update();
             }
             is_focus = false;
+        })
+        .on("keydown", function(){
+            setTimeout(function(){
+                ed_change.editor_change_span(this);
+            }.bind(this),0);
         });
 
     $(".content_title").on("change", function () {
