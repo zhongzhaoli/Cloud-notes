@@ -81,7 +81,7 @@
                         <span class="notes_li_title" th:text="${notes.title}"></span>
                     </div>
                     <div class="notes_main">
-                        <span th:text="${notes.content}"></span>
+                        <span></span>
                     </div>
                     <div class="notes_footer">
                         <div class="notes_footer_left">
@@ -89,8 +89,8 @@
                         </div>
                         <div class="notes_footer_right">
                             <span>
-                                <input type="hidden" id="notes_id" th:name="${notes.id}">
-                                <i class="fa fa-trash-o fa-lg" onclick="delete_notes(this)"></i>
+                            	<div style="display:none" th:text="${notes.content}"></div>
+                                <i class="fa fa-trash-o fa-lg" th:data-join="@{/note/{id}(id=${notes.id})}" onclick="delete_notes(this)"></i>
                                 <i class="fa fa-share-alt fa-lg" onclick="for_share_div()"></i>
                             </span>
                         </div>

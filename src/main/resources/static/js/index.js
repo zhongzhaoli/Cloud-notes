@@ -37,9 +37,20 @@ function outLogin() {
 		});
 	}
 }
+//note列表  content的东西
+function change_li_innerText(){
+	var notes_footer_right = $(".notes_footer_right");
+	[].forEach.call(notes_footer_right,function(e){
+		var innerText = $(e).find("div").first()[0].innerText;
+		$(e).find("div").first().html(innerText);
+		var get_text = $(e).find("div").first()[0].innerText;
+		$(e).parent().parent().find(".notes_main span")[0].innerHTML = get_text;
+	})
+}
 //空白区域点击
 $(document).ready(function () {
 	create_new_notes();
+	change_li_innerText();
 	$("body").click(function () {
 		(is_open) ? list_init() : is_open = false;
 	});
@@ -128,19 +139,16 @@ function return_is_object(a, b, c) {
 //删除笔记
 function delete_notes(a) {
 	if(confirm("你确定要删除此笔记吗？")){
-		var notes_id = $(a).parent().find("input")[0].name;
+		var data_join = $(a).attr("data-join");
 		var this_ = a
 		$.ajax({
-			url: "/note/" + notes_id,
+			url: data_join,
 			type:"post",
 			data:{"_method":"delete"},
 			success:function(e){
-				var b = return_is_object(e,"删除","");
-				if(b === "success"){
+				if(e === "success"){
 					$(this_).parents(".notes_li").remove();
-					$(".content_title")[0].value = "";
-					$("#editor")[0].innerHTML = "";
-					$(".notes_ul .notes_li").first().click();
+					$(".notes_ul .notes_li")[0].click();
 				}
 			}
 		})
@@ -160,7 +168,7 @@ function create_notes_ajax(content) {
 			$(new_li).each(function (x, e) {
 				$(e).find(".notes_title .notes_li_title").text("无标题文档");
 				$(e).find(".notes_main span").text("");
-				$(e).find("#notes_id")[0].name = note_id;
+				$(e).find(".notes_footer_right").find("i").first().attr("data-join","/note/" + note_id);
 				$(e).find(".notes_footer_left span").text(date.year + "-" + date.month + "-" + date.day);
 			});
 			ed_change.change_liClass(new_li);
@@ -244,11 +252,13 @@ function create_new_notes() {
 var ed_change = {
 	//编辑区内容赋给li
 	editor_change_span: function (e) {
-		$(".notes_li.active").find(".notes_main span").text($(e).text());
+		$(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = e.innerHTML;
+		$(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
 	},
 	editor_change_span2:function(){
-		var inner = $("#editor");
-		$(".notes_li.active").find(".notes_main span").text($(inner).text());
+		var inner = $("#editor")[0].innerHTML;
+		$(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = inner;
+		$(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
 	},
 	//标题的内容赋给li
 	input_change_span: function (e) {
@@ -260,7 +270,7 @@ var ed_change = {
 			$(".content_title").val($(note_title).text());
 			var note_cont = $(".notes_li").first().find(".notes_main span");
 			$(".editor_input").text();
-			ed_change.to_html($(note_cont).text());
+			ed_change.to_html($(".notes_footer_right div")[0].innerText);
 		}
 	},
 	//li的onclick
@@ -282,7 +292,7 @@ var ed_change = {
 		var old_title = $(that).find(".notes_li_title");
 		var old_cont = $(that).find(".notes_main span");
 		$(".content_title").val($(old_title).text());
-		ed_change.to_html($(old_cont).text())
+		ed_change.to_html($(that).find(".notes_footer_right div")[0].innerHTML)
 	},
 	//日期不足10补全0
 	add_zero: function (x) {
@@ -316,13 +326,13 @@ var ed_change = {
 	},
 	//修改note
 	update: function(){
-		var id = $(".notes_li.active").find(".notes_footer_right input")[0].name;
+		var url = $(".notes_li.active").find(".notes_footer_right").find("i.fa").first().attr("data-join");
 		var title = $(".content_title").val();
 		var content = $(".editor_input")[0].innerHTML;
 		var status;
 		$.ajax({
-			url: "/note/"+ id,
-			data: {"_method": "put", "id": id, "title": title, "content": content},
+			url: url,
+			data: {"_method": "put", "title": title, "content": content},
 			type: "post",
 			success: function(e){
 				if(e === "success"){
