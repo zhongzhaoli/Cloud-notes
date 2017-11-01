@@ -32,7 +32,9 @@ function outLogin() {
 	if (confirm("你确定要退出吗?")) {
 		$.post("/outLogin", function (e) {
 			if (e) {
-				location.href = "http://127.0.0.1:8084/login";
+				var url = window.location.host.split(":")[0];
+				// location.href = "http://127.0.0.1:8084/login";
+				location.href = "http://"+url+":8084/login";
 			}
 		});
 	}
@@ -92,12 +94,46 @@ function insertphoto_onchange(aa){
 			var rel_res = res.split(";base64,")[1];
 			var src = ed_change.findimg(rel_res);
 			
-			$("<img src="+src+">").appendTo($("#editor"));
+			// $("<img src="+src+">").appendTo($("#editor"));
+			add_photo(src);
 			ed_change.editor_change_span2();
             ed_change.update();
 		}
 	}
 }
+//增加图片在指定的位置
+function add_photo(src){
+    var sel, range;
+	sel = window.getSelection();
+	if (sel.getRangeAt && sel.rangeCount) {
+		range = sel.getRangeAt(0);
+		range.deleteContents();
+
+		// Range.createContextualFragment() would be useful here but is
+		// only relatively recently standardized and is not supported in
+		// some browsers (IE9, for one)
+		var Div = document.createElement("div");
+		var el = document.createElement("img");
+		el.src = src;
+		Div.appendChild(el);
+		var frag = document.createDocumentFragment(), node, lastNode;
+		while ( (node = Div.firstChild) ) {
+			lastNode = frag.appendChild(node);
+			// lastNode = el;
+		}
+		range.insertNode(frag);
+
+		// Preserve the selection
+		if (lastNode) {
+			range = range.cloneRange();
+			range.setStartAfter(lastNode);
+			range.collapse(true);
+			sel.removeAllRanges();
+			sel.addRange(range);
+		}
+	}
+}
+
 //根据返回数据的类型 给予提醒
 function return_is_object(a, b, c) {
 	if (typeof (a) === "object") {
@@ -233,13 +269,16 @@ function create_new_notes() {
 var ed_change = {
 	//编辑区内容赋给li
 	editor_change_span: function (e) {
-		$(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = e.innerHTML;
-		$(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
+		// $(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = e.innerHTML;
+		// $(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
+		$(".notes_li.active").find(".notes_main span").text($(e).text());
 	},
 	editor_change_span2:function(){
-		var inner = $("#editor")[0].innerHTML;
-		$(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = inner;
-		$(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
+		// var inner = $("#editor")[0].innerHTML;
+		// $(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = inner;
+		// $(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
+		var inner = $("#editor");
+		$(".notes_li.active").find(".notes_main span").text($(inner).text());
 	},
 	//标题的内容赋给li
 	input_change_span: function (e) {
@@ -318,6 +357,10 @@ var ed_change = {
 			success: function(e){
 				if(e === "success"){
 					old_content = $(".editor_input").text();
+					$(".save_button").text("已保存");
+					setTimeout(function(){
+					$(".save_button").text("保存");
+					},1000);
 				}
 			}
 		});

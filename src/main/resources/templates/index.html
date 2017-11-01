@@ -31,8 +31,8 @@
     <script src="../static/bootstrap-wysiwyg/external/google-code-prettify/prettify.js" th:src="@{/bootstrap-wysiwyg/external/google-code-prettify/prettify.js}"></script>
     <link href="../static/bootstrap-wysiwyg/index.css" th:href="@{/bootstrap-wysiwyg/index.css}" rel="stylesheet">
     <script src="../static/bootstrap-wysiwyg/bootstrap-wysiwyg.js" th:src="@{/bootstrap-wysiwyg/bootstrap-wysiwyg.js}"></script>
-    
-    <link href="../static/css/style.css" rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
 
 </head>
@@ -166,7 +166,7 @@
 
                     <div class="btn-group">
                         <a class="btn" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;" onclick="insertphoto(this)"><i class="icon-picture"></i></a>
-                        <input type="file" style="display:none" onchange="insertphoto_onchange(this)"/>
+                        <input type="file" style="display:none" onchange="insertphoto_onchange(this)" />
                     </div>
                     <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
                     <div class="save">
@@ -293,31 +293,38 @@
         selects: ['province', 'city'],  // 数组，请注意顺序
         emptyStyle: 'block'
     });
-    $(".save_button").on("click", function(){
+    $(".save_button").on("click", function () {
         ed_change.update();
     })
-    $(".editor_input").on("focus", function(){
+    $(".editor_input").on("focus", function () {
         is_focus = true;
-        old_content = $(".editor_input").text();
+        old_content = $(".editor_input").html();
     })
-    .on("blur", function(){
-        if(is_focus){
-            ed_change.editor_change_span(this);
-            ed_change.update();
-        }
-        is_focus = false;
-    });
+        .on("blur", function () {
+            if (old_content === $(".editor_input").html())
+                return
+            if (is_focus) {
+                ed_change.editor_change_span(this);
+                ed_change.update();
+            }
+            is_focus = false;
+        })
+        .on("keydown", function(){
+            setTimeout(function(){
+                ed_change.editor_change_span(this);
+            }.bind(this),0);
+        });
 
-    $(".content_title").on("change", function(){
+    $(".content_title").on("change", function () {
         ed_change.input_change_span(this);
-		ed_change.update();
+        ed_change.update();
     });
     ed_change.input_change_span();
-    $(".notes_ul .notes_li").each(function(x, e){
-        if(x === 0){
+    $(".notes_ul .notes_li").each(function (x, e) {
+        if (x === 0) {
             $(this).addClass("active");
         }
-        e.addEventListener("click", function(){
+        e.addEventListener("click", function () {
             ed_change.change_liClass($(this));
         });
 
@@ -332,4 +339,5 @@
     	  modal.find('.modal-body input').val(recipient)
     	})
 </script>
+
 </html>
