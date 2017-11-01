@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Property;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -53,6 +54,20 @@ public class UserDao {
 		else{
 			throw new ServiceException("account","not.get.account");
 		}
+	}
+	//找人(模糊查找)
+	public List findUser_vague(String keyword){
+		DetachedCriteria dc = DetachedCriteria.forClass(User.class); //离线查询
+		//ANYWHERE 查出所有
+		dc.add(Property.forName("account").like(keyword,MatchMode.ANYWHERE));
+		 Criteria criteria = dc.getExecutableCriteria(getSession());
+		 List list = criteria.list();
+		 if(list != null && list.size() > 0){
+			 return list;
+		 }
+		 else{
+			 return null;
+		 }
 	}
 	//查找出所有信息 并 进行覆盖
 	public void copyUser(User user){

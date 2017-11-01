@@ -52,21 +52,13 @@ $(document).ready(function () {
 	create_new_notes();
 	change_li_innerText();
 	Ctrl_s_save();
+	$("#share_username").on('keydown',function(){
+		share_js.keydown_a();
+	})
 	$("body").click(function () {
 		(is_open) ? list_init() : is_open = false;
 	});
 });
-//个人信息
-function for_user_div() {
-	if (user_is_open) {
-		$("#user_mb").hide();
-		user_is_open = false;
-	}
-	else {
-		$("#user_mb").show();
-		user_is_open = true;
-	}
-}
 //Ctrl+s 保存
 function Ctrl_s_save(){
 	$("body").on("keydown",function(e) {
@@ -78,31 +70,6 @@ function Ctrl_s_save(){
             e.preventDefault();
         }
     });
-}
-//意见反馈
-function for_opinion_div() {
-	if (opinion_is_open) {
-		$("#opinion_mb").hide();
-		opinion_is_open = false;
-	}
-	else {
-		$("#opinion_mb").show();
-		opinion_is_open = true;
-	}
-}
-//分享
-function for_share_div() {
-	if (share_is_open) {
-		$("#share_mb").hide();
-		share_is_open = false;
-	}
-	else {
-		$("#share_mb").show();
-		if($("#share_mb").find(".share_user_div")[0].children[0] == null){
-			$("<div style='text-align:center;color:#555;width:100%;font-size:15px;padding-top:10px;'>没有分享给任何人</div>").appendTo($(".share_user_div"));
-		}
-		share_is_open = true;
-	}
 }
 //插入图片
 function insertphoto(z){
