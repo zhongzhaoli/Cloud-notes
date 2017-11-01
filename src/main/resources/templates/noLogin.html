@@ -10,6 +10,8 @@
 </html>
 <script>
 	window.onload=function(){
-		location.href="http://127.0.0.1:8084/login";
+		var url = window.location.host.split(":")[0];
+		// location.href="http://127.0.0.1:8084/login";
+		location.href="http://"+url+":8084/login";
 	}
 </script>

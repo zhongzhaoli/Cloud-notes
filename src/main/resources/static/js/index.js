@@ -32,7 +32,9 @@ function outLogin() {
 	if (confirm("你确定要退出吗?")) {
 		$.post("/outLogin", function (e) {
 			if (e) {
-				location.href = "http://127.0.0.1:8084/login";
+				var url = window.location.host.split(":")[0];
+				// location.href = "http://127.0.0.1:8084/login";
+				location.href = "http://"+url+":8084/login";
 			}
 		});
 	}
@@ -132,7 +134,7 @@ function insertphoto_onchange(aa){
 		}
 	}
 }
-
+//增加图片在指定的位置
 function add_photo(src){
     var sel, range;
 	sel = window.getSelection();
