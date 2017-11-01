@@ -30,4 +30,18 @@ public class ShareController {
 		List list = userdao.findUser_vague(keyword);
 		return list;
 	}
+	
+	@PostMapping("/share/{id}/user/{userid}")
+	@ResponseBody
+	public String inShare(HttpServletRequest req,@PathVariable String id,@PathVariable String userid){
+		String re_str = userdao.add_share_user(id, userid);
+		return re_str;
+	}
+	
+	@PostMapping("/share/{id}/find")
+	@ResponseBody
+	public List findShare(HttpServletRequest req,@PathVariable String id){
+		List list = userdao.findStaredao(id);
+		return list;
+	}
 }

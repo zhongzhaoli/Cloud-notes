@@ -50,6 +50,7 @@ public class NoteDao {
 			 return null;
 		 }
 	}
+	//查找所有笔记(通过ID)
 	public List findNote_id(String id){
 		if(!id.equals(null)){
 			DetachedCriteria dc = DetachedCriteria.forClass(Note.class);
@@ -78,10 +79,15 @@ public class NoteDao {
 	public void deleteNote(Note notes){
 		getSession().remove(getSession().merge(notes));
 	}
+	//修改笔记
 	public void updateNote(Note note, String title, String content){
 		copyNote(note);
 		notes.setTitle(title);
 		notes.setContent(content);
 		getSession().merge(notes);
+	}
+	//修改笔记2
+	public void updataNote2(Note note){
+		getSession().merge(note);
 	}
 }

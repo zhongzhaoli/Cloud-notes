@@ -91,7 +91,7 @@
                             <span>
                             	<div style="display:none" th:text="${notes.content}"></div>
                                 <i class="fa fa-trash-o fa-lg" th:data-join="@{/note/{id}(id=${notes.id})}" onclick="delete_notes(this)"></i>
-                                <i class="fa fa-share-alt fa-lg" data-toggle="modal" data-target=".bs-example-modal-lg3"></i>
+                                <i class="fa fa-share-alt fa-lg" data-toggle="modal" data-target=".bs-example-modal-lg3" th:data-join="@{{id}(id=${notes.id})}" onclick="set_share_note_id(this)"></i>
                             </span>
                         </div>
                     </div>
@@ -274,7 +274,7 @@
             <div id="share_user_list" class="share_user_list" style="display:none"></div>
           </div>
           <div class="form-group">
-          	<div class="form-control minheight"></div>
+          	<div class="form-control minheight" id="is_in_share"></div>
           </div>
       	</div>
       	<div class="modal-footer">
