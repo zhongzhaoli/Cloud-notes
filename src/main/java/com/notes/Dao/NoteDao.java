@@ -58,7 +58,7 @@ public class NoteDao {
 			Criteria criteria = dc.getExecutableCriteria(getSession());
 			List list = criteria.list();
 			if(list != null && list.size() > 0){
-				return list;
+				return (List) list;
 			}else{
 				return null;	
 			}

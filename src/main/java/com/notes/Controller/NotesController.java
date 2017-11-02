@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.notes.Dao.NoteDao;
+import com.notes.Dao.ShareDao;
 import com.notes.Entity.Note;
+import com.notes.Entity.Share;
 import com.notes.Service.NoteService;
 import com.notes.Service.PhotoService;
 import com.notes.Util.Time;
@@ -36,9 +38,12 @@ public class NotesController {
 	private NoteService noteService;
 	@Autowired
 	private PhotoService photoservice;
+	@Autowired
+	private ShareDao sharedao;
 	
 	Note notes = new Note();
 	Time time = new Time();
+	Share share = new Share();
 	
 	//创建 notes
 	@ResponseBody
@@ -52,10 +57,20 @@ public class NotesController {
 	@ResponseBody
 	@DeleteMapping("/note/{id}")
 	public String savenotes(@PathVariable String id){
+		//删除笔记
 		List aaa = (List) notedao.findNote_id(id);
 		Note bbb = (Note) aaa.get(0);
 		BeanUtils.copyProperties(bbb, notes);
 		notedao.deleteNote(notes);
+		//删除分享
+		List list_share_note_id = sharedao.share_find_id(notes.getId(),"",false);
+		if(list_share_note_id!=null){
+			for(int i=0;i<list_share_note_id.size();i++){
+				Share share_note_id = (Share) list_share_note_id.get(i);
+				BeanUtils.copyProperties(share_note_id, share);
+				sharedao.delete_share(share);
+			}
+		}
 		return "success";
 	}
 	//更改

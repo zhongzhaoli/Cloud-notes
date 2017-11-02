@@ -5,6 +5,9 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Property;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,9 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.notes.Controller.NoteForm;
 import com.notes.Dao.NoteDao;
+import com.notes.Dao.ShareDao;
 import com.notes.Entity.Note;
+import com.notes.Entity.Share;
 import com.notes.Util.ServiceException;
 import com.notes.Util.Time;
+
+import ch.qos.logback.core.pattern.parser.Node;
 
 @Component
 @Transactional
@@ -25,6 +32,10 @@ public class NoteService {
 
 	@Autowired
 	private NoteDao noteDao;
+	@Autowired
+	private ShareDao sharedao;
+	@Autowired
+	private NoteDao notedao;
 	
 	Note note = new Note();
 	Time time = new Time();
@@ -64,7 +75,7 @@ public class NoteService {
 		List notes = noteDao.findAllNotes(a);
 		return notes;
 	}
-	
+	//更新note
 	public void update(String id, String title, String content){
 		if(title.length() > 1){
 			note.setId(id);
@@ -75,14 +86,17 @@ public class NoteService {
 			throw new ServiceException("note.title","title.length.short");
 		}
 	}
-	//删除 notes
-	@ResponseBody
-	@DeleteMapping("/notes/{id}")
-	public String savenotes(@PathVariable String id){
-		List aaa = (List) noteDao.findNote_id(id);
-		Note bbb = (Note) aaa.get(0);
-		BeanUtils.copyProperties(bbb, note);
-		noteDao.deleteNote(note);
-		return "success";
+	//查找受分享的note
+	public List findShare(String user_name){
+		List note_id_list = sharedao.share_find_noteid(user_name);
+		if(note_id_list!=null){
+			Share note_id_ty_share = (Share) note_id_list.get(0);
+			String note_id = note_id_ty_share.getNode();
+			List note =(List) notedao.findNote_id(note_id);
+			return note;
+		}
+		else{
+			return null;
+		}
 	}
 }

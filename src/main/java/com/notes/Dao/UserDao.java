@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 import com.notes.Entity.Note;
 import com.notes.Entity.User;
 import com.notes.Util.ServiceException;
+import com.notes.Util.ShareSplit;
 import com.notes.Util.UTF8;
 
 //组件
@@ -43,6 +44,7 @@ public class UserDao {
 	User users = new User();
 	UTF8 utf8 = new UTF8();
 	Note notes = new Note();
+	ShareSplit sharesplit = new ShareSplit();
 	
 	//找个人信息(account)
 	public User findUser(String account){
@@ -94,46 +96,6 @@ public class UserDao {
 			 return null;
 		 }
 	}
-	//添加分享的人
-	public String add_share_user(String id,String userid){
-		Note note = (Note) notedao.findNote_id(id).get(0);
-		User user = (User) findUser_id(userid);
-		BeanUtils.copyProperties(note,notes);
-		if(notes.getSharelist()==null||notes.getSharelist()==""){
-			 //存进 List  然后toString
-			 List share_list = new ArrayList();
-			 share_list.add(user.getAccount());
-			notes.setSharelist(share_list.toString());
-			//存进数据库
-			notedao.updataNote2(notes);
-		}
-		else{
-			//先获取 sharelist 里的所有数据
-			String share_list = note.getSharelist();
-			//切割
-			String qg_sha = share_list.split("\\[")[1];
-			String qg_sha_2 = qg_sha.split("\\]")[0];
-			//获取到一个数组吧
-			String[] qg_sha_3 = qg_sha_2.split(",");
-			int le = qg_sha_3.length;
-			//List 用for循环 add进去 再toString
-			 List share_list_new = new ArrayList();
-			 share_list_new.add(user.getAccount());
-			for(int i=0;i<le;i++){
-				if(qg_sha_3[i].equals(user.getAccount())){
-					throw new ServiceException("share_is_in");
-				}
-				else{
-					//清除空格
-					String qg_sha_4 = qg_sha_3[i].replace(" ", "");
-					share_list_new.add(qg_sha_4);
-				}
-			}
-			notes.setSharelist(share_list_new.toString());
-			notedao.updataNote2(notes);
-		}
-		return "success";
-	}
 	//查找出所有信息 并 进行覆盖
 	public void copyUser(User user){
 		User getuser = findUser(user.getAccount());
@@ -154,27 +116,5 @@ public class UserDao {
 		users.setMood(user_mood);
 		getSession().merge(users);
 	}
-	//查找分享的人
-	public List findStaredao(String id){
-		Note note = (Note) notedao.findNote_id(id).get(0);
-		//切割
-			String share_list = note.getSharelist();
-			if(share_list!=null){
-				String qg_sha = share_list.split("\\[")[1];
-				String qg_sha_2 = qg_sha.split("\\]")[0];
-				//获取到一个数组吧
-				String[] qg_sha_3 = qg_sha_2.split(",");
-				List share_list_new = new ArrayList();
-				int le = qg_sha_3.length;
-				for(int i=0;i<le;i++){
-					User user_name = findUser(qg_sha_3[i].replace(" ", ""));
-					String user_name_tos =(String) user_name.getAccount(); 
-					share_list_new.add(user_name);
-				}
-				return share_list_new;
-			}
-			else{
-				return null;
-			}
-	}
+
 }

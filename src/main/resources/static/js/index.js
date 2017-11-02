@@ -56,7 +56,7 @@ $(document).ready(function () {
 	change_li_innerText();
 	Ctrl_s_save();
 	$("#share_username").on('keydown',function(){
-		share_js.keydown_a();
+		share_js.keydown_a(this);
 	})
 	$("body").click(function () {
 		(is_open) ? list_init() : is_open = false;
@@ -71,12 +71,21 @@ function set_share_note_id(z){
 		type:"post",
 		data:{},
 		success:function(e){
-			if(e!=null){
+			if(e!=null&&e!=""){
 				for(var i = 0; i < e.length; i++){
+					var lock;
+					if(e[i].password == "true"){
+						lock = "lock_open";
+					}
+					else{
+						lock = "lock_outline";
+					}
 					var big_div = $("<div class='share_in_user_s' name="+e[i].id+"></div>").appendTo($("#is_in_share"));
 					$("<div><img style='width:30px;height:30px' src="+e[i].photo+"><span style='padding-left:5px;font-size:15px;'>"+e[i].account+"</span></div>").appendTo(big_div);
-					$("<div style='color:white;transform: rotate(45deg);font-size: 30px;width: 20px;height: 20px;line-height: 20px;text-align: center;'>+</div>").appendTo(big_div);
+					$("<div style='display: flex;align-items: center;'><i class='material-icons share_lock' onclick='share_js.share_editable(this)'>"+lock+"</i><div onclick='share_js.delete_share_user(this)' class='share_close_x'>+</div></div>").appendTo(big_div);
 				}
+			}else{
+				$("<div class='no_share_people'>暂无分享的人</div>").appendTo($("#is_in_share"));
 			}
 		}
 	})
@@ -290,16 +299,13 @@ function create_new_notes() {
 var ed_change = {
 	//编辑区内容赋给li
 	editor_change_span: function (e) {
-		// $(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = e.innerHTML;
-		// $(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
-		$(".notes_li.active").find(".notes_main span").text($(e).text());
+		 $(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = e.innerHTML;
+		 $(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
 	},
 	editor_change_span2:function(){
-		// var inner = $("#editor")[0].innerHTML;
-		// $(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = inner;
-		// $(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
-		var inner = $("#editor");
-		$(".notes_li.active").find(".notes_main span").text($(inner).text());
+		 var inner = $("#editor")[0].innerHTML;
+		 $(".notes_li.active").find(".notes_footer_right div")[0].innerHTML = inner;
+		 $(".notes_li.active").find(".notes_main span").text($(".notes_li.active").find(".notes_footer_right div")[0].innerText);
 	},
 	//标题的内容赋给li
 	input_change_span: function (e) {
@@ -367,6 +373,9 @@ var ed_change = {
 	},
 	//修改note
 	update: function(){
+		if($(".notes_li.active")[0].id == "for_share"){
+				alert("不可修改分享的笔记");
+		}
 		var url = $(".notes_li.active").find(".notes_footer_right").find("i.fa").first().attr("data-join");
 		var title = $(".content_title").val();
 		var content = $(".editor_input")[0].innerHTML;
