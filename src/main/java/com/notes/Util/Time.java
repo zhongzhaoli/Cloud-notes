@@ -1,5 +1,6 @@
 package com.notes.Util;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -14,6 +15,10 @@ public class Time {
         System.out.println(cal.get(Calendar.MINUTE));
         String time = year + "-" + month + "-" + day;
         return time;
+	}
+	
+	public static String timestamp() {
+		return new Timestamp(System.currentTimeMillis()).toString();
 	}
 	
 	public String gettime_more(){
