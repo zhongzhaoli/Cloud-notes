@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.notes.Entity.Note;
+import com.notes.Entity.Share;
 import com.notes.Entity.User;
 import com.notes.Service.NoteService;
 import com.notes.Dao.NoteDao;
@@ -34,6 +35,7 @@ public class IndexCollter {
 	
 	User user=new User();
 	Note notes = new Note();
+	Share share = new Share();
 	
 	//首页
 	@GetMapping("/index")
@@ -44,9 +46,11 @@ public class IndexCollter {
 		if(a != null && b != null){
 			User he = userdao.findUser(a);
 			List not = noteService.findNode_create(a, req);
+			List shares = noteService.findShare(a);
 			model.addAttribute("item", he);
 			model.addAttribute("sessionuser", user.getAccount());
 			model.addAttribute("notes",not);
+ 			model.addAttribute("share",shares);
 			return "index";
 		}
 		else{
