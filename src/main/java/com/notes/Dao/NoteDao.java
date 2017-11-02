@@ -10,6 +10,8 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -41,6 +43,7 @@ public class NoteDao {
 	public List findAllNotes(String a){
 		 DetachedCriteria dc = DetachedCriteria.forClass(Note.class); //离线查询
 		 dc.add(Property.forName("username").eq(a));
+		 dc.addOrder(Order.desc("time"));
 		 Criteria criteria = dc.getExecutableCriteria(getSession());
 		 List list = criteria.list();
 		 if(list != null && list.size() > 0){
