@@ -4,6 +4,7 @@ var opinion_is_open = false;
 var share_is_open = false;
 var is_create = false;
 var is_focus = false;
+var share_note_id = "";
 var old_content;
 var status;
 //个人信息下拉菜单
@@ -54,20 +55,31 @@ $(document).ready(function () {
 	create_new_notes();
 	change_li_innerText();
 	Ctrl_s_save();
+	$("#share_username").on('keydown',function(){
+		share_js.keydown_a();
+	})
 	$("body").click(function () {
 		(is_open) ? list_init() : is_open = false;
 	});
 });
-//个人信息
-function for_user_div() {
-	if (user_is_open) {
-		$("#user_mb").hide();
-		user_is_open = false;
-	}
-	else {
-		$("#user_mb").show();
-		user_is_open = true;
-	}
+//设置note id  获取此活动分享给的人
+function set_share_note_id(z){
+	share_note_id = $(z).attr("data-join");
+	$("#is_in_share").html("");
+	$.ajax({
+		url:"/share/"+share_note_id+"/find",
+		type:"post",
+		data:{},
+		success:function(e){
+			if(e!=null){
+				for(var i = 0; i < e.length; i++){
+					var big_div = $("<div class='share_in_user_s' name="+e[i].id+"></div>").appendTo($("#is_in_share"));
+					$("<div><img style='width:30px;height:30px' src="+e[i].photo+"><span style='padding-left:5px;font-size:15px;'>"+e[i].account+"</span></div>").appendTo(big_div);
+					$("<div style='color:white;transform: rotate(45deg);font-size: 30px;width: 20px;height: 20px;line-height: 20px;text-align: center;'>+</div>").appendTo(big_div);
+				}
+			}
+		}
+	})
 }
 //Ctrl+s 保存
 function Ctrl_s_save(){
@@ -80,31 +92,6 @@ function Ctrl_s_save(){
             e.preventDefault();
         }
     });
-}
-//意见反馈
-function for_opinion_div() {
-	if (opinion_is_open) {
-		$("#opinion_mb").hide();
-		opinion_is_open = false;
-	}
-	else {
-		$("#opinion_mb").show();
-		opinion_is_open = true;
-	}
-}
-//分享
-function for_share_div() {
-	if (share_is_open) {
-		$("#share_mb").hide();
-		share_is_open = false;
-	}
-	else {
-		$("#share_mb").show();
-		if($("#share_mb").find(".share_user_div")[0].children[0] == null){
-			$("<div style='text-align:center;color:#555;width:100%;font-size:15px;padding-top:10px;'>没有分享给任何人</div>").appendTo($(".share_user_div"));
-		}
-		share_is_open = true;
-	}
 }
 //插入图片
 function insertphoto(z){
@@ -218,6 +205,7 @@ function create_notes_ajax(content) {
 				$(e).find(".notes_title .notes_li_title").text("无标题文档");
 				$(e).find(".notes_main span").text("");
 				$(e).find(".notes_footer_right").find("i").first().attr("data-join","/note/" + note_id);
+				$(e).find(".notes_footer_right").find("i").last().attr("data-join",note_id);
 				$(e).find(".notes_footer_right").find("div").first().html("");
 				$(e).find(".notes_footer_left span").text(date.year + "-" + date.month + "-" + date.day);
 			});

@@ -13,6 +13,7 @@
     <script src="../static/js/jquery-1.11.3.min.js" th:src="@{/js/jquery-1.11.3.min.js}"></script>
     <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
     <script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
+    <script src="../static/js/share.js" th:src="@{/js/share.js}"></script>
     <script src="../static/js/wysiwyg.js" th:src="@{/js/wysiwyg.js}"></script>
 
 
@@ -90,7 +91,7 @@
                             <span>
                             	<div style="display:none" th:text="${notes.content}"></div>
                                 <i class="fa fa-trash-o fa-lg" th:data-join="@{/note/{id}(id=${notes.id})}" onclick="delete_notes(this)"></i>
-                                <i class="fa fa-share-alt fa-lg" data-toggle="modal" data-target=".bs-example-modal-lg3"></i>
+                                <i class="fa fa-share-alt fa-lg" data-toggle="modal" data-target=".bs-example-modal-lg3" th:data-join="@{{id}(id=${notes.id})}" onclick="set_share_note_id(this)"></i>
                             </span>
                         </div>
                     </div>
@@ -269,10 +270,11 @@
       <form>
       <div class="modal-body paddi_top_0 paddi_bottom_0">
           <div class="form-group">
-            <input type="text" id="user_nickname" class="form-control" placeholder="分享的用户名">
+            <input type="text" id="share_username" class="form-control" placeholder="分享的用户名">
+            <div id="share_user_list" class="share_user_list" style="display:none"></div>
           </div>
           <div class="form-group">
-          	<div class="form-control minheight"></div>
+          	<div class="form-control minheight" id="is_in_share"></div>
           </div>
       	</div>
       	<div class="modal-footer">

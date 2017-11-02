@@ -131,6 +131,8 @@ li{
 }
 .minheight{
 	min-height:200px;
+	padding: 0;
+	overflow: auto;
 }
 #content-wrapper {
   height: 100%;
@@ -144,12 +146,64 @@ li{
   /* padding-bottom: 160px; */
   background: #fff;
 }
-
+.share_in_user:hover{
+	background:#2196F3;
+	color:white;
+}
+.share_in_user_s:hover{
+	background:#2196F3;
+	color:white;
+}
+.share_in_user img{
+	border-radius:4px;
+}
+.share_in_user_s img{
+	border-radius:4px;
+}
 #footer {
   box-sizing: border-box;
   height: 160px;
   margin-left: 0px;
   transition: margin-left 0.2s;
+}
+.share_user_list{
+	background: white;
+	/* padding: 10px; */
+	border: 1px solid #ccc;
+	border-top: 0;
+	border-radius: 4px;
+	max-height: 200px;
+	overflow: auto;
+	float: left;
+	width: calc(100% - 30px);
+	position: absolute;
+	z-index: 100;
+	box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.3);
+}
+.share_in_user{
+	padding: 8px;
+	/* border-radius: 4px; */
+	display: block;
+	padding: 5px;
+	overflow: hidden;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.share_in_user_s{
+	padding: 8px;
+	/* border-radius: 4px; */
+	display: block;
+	padding: 5px;
+	overflow: hidden;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 .logo_text{
   font-size: 25px;
@@ -158,6 +212,9 @@ li{
   left:50px;
   height: 30px;
   line-height: 30px;
+}
+.share_in_user_span{
+	font-family:"Microsoft Yahei";
 }
 .add_table{
   font-size: 14px;
