@@ -69,7 +69,7 @@ public class ShareController {
 			zxc.setId(user_list_zxc.getId());
 			zxc.setPhoto(user_list_zxc.getPhoto());
 			zxc.setPassword(share_edit.getEditable());
-			new_retu_list.add(i, zxc);
+			new_retu_list.add(i, zxc); 
 		}
 		return new_retu_list; 
 	}
