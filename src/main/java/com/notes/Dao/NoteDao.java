@@ -10,6 +10,8 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import com.notes.Entity.Note;
 import com.notes.Util.ServiceException;
+import com.notes.Util.Time;
 
 import ch.qos.logback.core.joran.util.beans.BeanUtil;
 
@@ -41,8 +44,14 @@ public class NoteDao {
 	public List findAllNotes(String a){
 		 DetachedCriteria dc = DetachedCriteria.forClass(Note.class); //离线查询
 		 dc.add(Property.forName("username").eq(a));
+		 dc.addOrder(Order.desc("edit_time"));
 		 Criteria criteria = dc.getExecutableCriteria(getSession());
 		 List list = criteria.list();
+		 int i;
+		 for(i = 0; i < list.size();i++){
+			 Note new_time = (Note) list.get(i);
+			 new_time.setTime(new_time.getTime().substring(0,10));
+		 }
 		 if(list != null && list.size() > 0){
 			 return list;
 		 }
@@ -84,6 +93,8 @@ public class NoteDao {
 		copyNote(note);
 		notes.setTitle(title);
 		notes.setContent(content);
+		notes.setTime(Time.timestamp().substring(0,10));
+		notes.setEdit_time(Time.timestamp());
 		getSession().merge(notes);
 	}
 	//修改笔记2

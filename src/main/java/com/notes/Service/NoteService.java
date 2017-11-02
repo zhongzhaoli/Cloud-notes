@@ -1,5 +1,6 @@
 package com.notes.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,7 +52,8 @@ public class NoteService {
 		note.setContent(noteForm.getContent());
 		note.setUsername((String) req.getSession().getAttribute("user_name"));
 		note.setUserid((String) req.getSession().getAttribute("user_id"));
-		note.setTime(time.gettime());
+		note.setTime(time.timestamp().substring(0,19));
+		note.setEdit_time(time.timestamp());
 		noteDao.createNote(note);
 		return note;
 	}
