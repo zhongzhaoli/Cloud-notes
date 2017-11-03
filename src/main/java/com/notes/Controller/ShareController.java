@@ -58,6 +58,9 @@ public class ShareController {
 	@ResponseBody
 	public List findShare(HttpServletRequest req,@PathVariable String id){
 		List list = sharedao.findStaredao(id);
+		if(list==null){
+			return null;
+		}
 		List new_retu_list = new ArrayList();
 		for(int i=0;i<list.size();i++){
 			List new_retu_sm = new ArrayList();

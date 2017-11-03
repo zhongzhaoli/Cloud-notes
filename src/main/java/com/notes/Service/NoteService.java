@@ -1,6 +1,7 @@
 package com.notes.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -92,9 +93,17 @@ public class NoteService {
 	public List findShare(String user_name){
 		List note_id_list = sharedao.share_find_noteid(user_name);
 		if(note_id_list!=null){
-			Share note_id_ty_share = (Share) note_id_list.get(0);
-			String note_id = note_id_ty_share.getNode();
-			List note =(List) notedao.findNote_id(note_id);
+			List note = new ArrayList();
+			for(int i=0;i<note_id_list.size();i++){
+				Share note_id_ty_share = (Share) note_id_list.get(i);
+				String note_id = note_id_ty_share.getNode();
+				Note notesz= (Note) notedao.findNote_id(note_id).get(0);
+				//share_list 充当 editable
+				Note uio = new Note();
+				BeanUtils.copyProperties(notesz,uio);
+ 				uio.setSharelist(note_id_ty_share.getEditable());
+				note.add(i, uio);
+			}
 			return note;
 		}
 		else{

@@ -31,9 +31,17 @@ jQuery(function($) {
   }
   
   
-  $('.js-show-sidedrawer').on('click', showSidedrawer);
+/*  $('.js-show-sidedrawer').on('click', showSidedrawer);*/
+  $('.js-show-sidedrawer').on('click',function(){
+	  if($(".jj_mb").length){
+		  hiden_side($(".jj_mb"));
+	  }
+	  else{
+		  $("<div class='jj_mb' onclick='hiden_side(this)'></div>").appendTo($("body"));
+		  $("#sidedrawer")[0].style.transform="translate(280px)";
+	  }
+  })
   $('.js-hide-sidedrawer').on('click', hideSidedrawer);
-  
   
   // ==========================================================================
   // Animate menu

@@ -195,7 +195,7 @@ li{
 	padding: 8px;
 	/* border-radius: 4px; */
 	display: block;
-	padding: 5px;
+	padding: 8px;
 	overflow: hidden;
 	text-decoration: none;
 	text-overflow: ellipsis;
@@ -371,6 +371,15 @@ li{
 .notes_li_icon{
   font-size:19px;
   color: #2196f3;
+}
+.jj_mb{
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	background: rgba(0,0,0,0.3);
+	z-index:1;
 }
 .notes_li_title{
   position: relative;
@@ -645,7 +654,7 @@ li{
   }
   
   #sidedrawer {
-      transform: translate(280px);
+      transform: translate(280px) !important;
   }
   
   #content-wrapper {
@@ -661,7 +670,7 @@ li{
   }
   
   body.hide-sidedrawer #sidedrawer {
-      transform: translate(0px);
+      transform: translate(0px) !important;
   }
   
   body.hide-sidedrawer #content-wrapper {
@@ -697,7 +706,7 @@ li{
 
 @media (max-width:768px){
     #sidedrawer{
-        top:0px;
+        top: 64px;
     }
     .user_div_card{
         width:350px;

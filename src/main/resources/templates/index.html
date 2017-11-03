@@ -6,13 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script src="../static/js/jquery-1.11.3.min.js" th:src="@{/js/jquery-1.11.3.min.js}"></script>
+    <script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
     <link rel="stylesheet" href="../static/css/mui.min.css" th:href="@{/css/mui.min.css}">
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" href="../static/css/material-icons.css" th:href="@{/css/material-icons.css}">
     <script src="../static/js/mui.min.js" th:src="@{/js/mui.min.js}"></script>
-    <script src="../static/js/jquery-1.11.3.min.js" th:src="@{/js/jquery-1.11.3.min.js}"></script>
+
     <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
-    <script src="../static/js/index.js" th:src="@{/js/index.js}"></script>
     <script src="../static/js/share.js" th:src="@{/js/share.js}"></script>
     <script src="../static/js/wysiwyg.js" th:src="@{/js/wysiwyg.js}"></script>
 
@@ -72,7 +73,7 @@
             </div>
             <div class="mui-divider"></div>
             <ul class="notes_ul">
-                <li class="notes_li" th:each="notes:${notes}">
+                <li class="notes_li"id="for_myself" th:each="notes:${notes}">
                     <div class="notes_title">
                         <span>
                             <i class="material-icons notes_li_icon">font_download</i>
@@ -104,7 +105,10 @@
                                                     <!-- <span class="notes_li_title">无标题笔记</span> -->
                         <span class="notes_li_title" th:text="${notes.title}"></span>
                         </span>
-                        <i class="material-icons" style="color:silver">people</i>
+                        <span>
+                        <span id="can_change" th:name="${notes.sharelist}"></span>
+                        	<i class="material-icons" style="color:silver">people</i>
+                        </span>
                     </div>
                     <div class="notes_main">
                         <span></span>
@@ -116,6 +120,7 @@
                         <div class="notes_footer_right">
                             <span>
                             	<div style="display:none" th:text="${notes.content}"></div>
+                            	<i class="fa fa-trash-o fa-lg" th:data-join="@{/note/{id}(id=${notes.id})}" style="display:none"></i>
                             </span>
                         </div>
                     </div>

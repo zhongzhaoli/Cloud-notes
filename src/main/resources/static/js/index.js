@@ -58,10 +58,20 @@ $(document).ready(function () {
 	$("#share_username").on('keydown',function(){
 		share_js.keydown_a(this);
 	})
+	$("#mui-overlay").on("click",function(){
+		e = e || event;
+        e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+		alert("das");
+	})
 	$("body").click(function () {
 		(is_open) ? list_init() : is_open = false;
 	});
 });
+//手机端回收 左notelist
+function hiden_side(z){
+	  $("#sidedrawer")[0].style.transform="translate(0px)";
+	  $(z).remove();
+}
 //设置note id  获取此活动分享给的人
 function set_share_note_id(z){
 	share_note_id = $(z).attr("data-join");
@@ -208,7 +218,7 @@ function create_notes_ajax(content) {
 		data: { "title": "", "content": content },
 		success: function (note_id) {
 			//前端创建
-			var new_li = $(".notes_ul .notes_li").last().clone();
+			var new_li = $("#for_myself").first().clone();
 			var date = new ed_change.get_date();
 			$(new_li).each(function (x, e) {
 				$(e).find(".notes_title .notes_li_title").text("无标题文档");
@@ -340,6 +350,12 @@ var ed_change = {
 		var old_cont = $(that).find(".notes_main span");
 		$(".content_title").val($(old_title).text());
 		ed_change.to_html($(that).find(".notes_footer_right div")[0].innerHTML)
+		if($(that).find("#can_change").attr("name") == "false"){
+			$("#editor").attr("contenteditable","false");
+		}
+		else{
+			$("#editor").attr("contenteditable","true");
+		}
 	},
 	//日期不足10补全0
 	add_zero: function (x) {
@@ -373,8 +389,8 @@ var ed_change = {
 	},
 	//修改note
 	update: function(){
-		if($(".notes_li.active")[0].id == "for_share"){
-				alert("不可修改分享的笔记");
+		if($(".notes_li.active").find("#can_change").attr("name") == "false"){
+			return;
 		}
 		var url = $(".notes_li.active").find(".notes_footer_right").find("i.fa").first().attr("data-join");
 		var title = $(".content_title").val();
