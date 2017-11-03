@@ -47,12 +47,12 @@ public class NoteDao {
 		 dc.addOrder(Order.desc("edit_time"));
 		 Criteria criteria = dc.getExecutableCriteria(getSession());
 		 List list = criteria.list();
-		 int i;
-		 for(i = 0; i < list.size();i++){
-			 Note new_time = (Note) list.get(i);
-			 new_time.setTime(new_time.getTime().substring(0,10));
-		 }
-		 if(list != null && list.size() > 0){
+		 if(list != null && list.size() > 0 && !list.equals("[]")){
+			 int i;
+			 for(i = 0; i < list.size();i++){
+				 Note new_time = (Note) list.get(i);
+				 new_time.setTime(new_time.getTime().substring(0,10));
+			 }
 			 return list;
 		 }
 		 else{

@@ -7,15 +7,6 @@ import java.util.Date;
 import org.apache.catalina.startup.HomesUserDatabase;
 
 public class Time {
-	public String gettime(){
-		Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);//获取年份
-        int month=(cal.get(Calendar.MONTH)) + 1;//获取月份
-        int day=cal.get(Calendar.DATE);//获取日
-        System.out.println(cal.get(Calendar.MINUTE));
-        String time = year + "-" + month + "-" + day;
-        return time;
-	}
 	
 	public static String timestamp() {
 		return new Timestamp(System.currentTimeMillis()).toString();

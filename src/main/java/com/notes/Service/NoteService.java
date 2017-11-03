@@ -62,7 +62,7 @@ public class NoteService {
 		note.setId(UUID.randomUUID().toString().replace("-", ""));
 		note.setTitle(title);
 		note.setContent(content);
-		note.setTime(time.gettime());
+		note.setTime(time.timestamp());
 		note.setUsername((String) req.getSession().getAttribute("user_name"));
 		note.setUserid((String) req.getSession().getAttribute("user_id"));
 		noteDao.createNote(note);
