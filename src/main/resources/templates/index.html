@@ -16,6 +16,7 @@
     <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
     <script src="../static/js/share.js" th:src="@{/js/share.js}"></script>
     <script src="../static/js/wysiwyg.js" th:src="@{/js/wysiwyg.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/fakeLoader.css}">
 
 
     <!-- 编辑器 -->
@@ -35,10 +36,12 @@
 
     <link href="../static/css/style.css" rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    
 
 </head>
 
 <body>
+	<div class="fakeloader"></div>
     <header id="header">
         <div class="mui-appbar mui--appbar-line-height">
             <div class="mui-container-fluid">
@@ -318,7 +321,17 @@
     
 </body>
 <script src="../static/js/cxSelec/jquery.cxselect.min.js" th:src="@{/js/cxSelec/jquery.cxselect.min.js}"></script>
+<script th:src="@{/js/fakeLoader.js}"></script>
 <script>
+ 	$(document).ready(function(){
+        $(".fakeloader").fakeLoader({
+            bgColor:"#2196F3",
+            spinner:"spinner1"
+        });
+    });
+</script>
+<script>
+
     $('.address_class').cxSelect({          // 如果服务器不支持 .json 类型文件，请将文件改为 .js 文件
         url: "[[@{/js/cxSelec/cityData.min.json}]]",
         selects: ['province', 'city'],  // 数组，请注意顺序
