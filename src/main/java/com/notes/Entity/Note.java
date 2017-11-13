@@ -20,7 +20,7 @@ public class Note {
 	private String userid;
 	private String sharelist;
 	@Column(name = "time", nullable = false, length = 19)
-	private Timestamp time;
+	private Timestamp time; 
 	@Transient
 	private String qx;
 
