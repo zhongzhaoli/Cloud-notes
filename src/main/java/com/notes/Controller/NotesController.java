@@ -57,7 +57,6 @@ public class NotesController {
 	@ResponseBody
 	@DeleteMapping("/note/{id}")
 	public String savenotes(@PathVariable String id){
-		//删除笔记
 		List aaa = (List) notedao.findNote_id(id);
 		Note bbb = (Note) aaa.get(0);
 		BeanUtils.copyProperties(bbb, notes);
@@ -76,7 +75,7 @@ public class NotesController {
 	//更改
 	@PutMapping("/note/{id}")
 	@ResponseBody
-	public String update(HttpServletRequest req,@PathVariable String id, String title, String content){
+	public String updatezz(HttpServletRequest req,@PathVariable String id, String title, String content){
 		noteService.update(id,(String) title,(String) content);
 		return "success";
 	}

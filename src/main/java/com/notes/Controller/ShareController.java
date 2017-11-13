@@ -58,23 +58,10 @@ public class ShareController {
 	@ResponseBody
 	public List findShare(HttpServletRequest req,@PathVariable String id){
 		List list = sharedao.findStaredao(id);
-		if(list==null){
+		if(list.size() <= 0||list==null){
 			return null;
 		}
-		List new_retu_list = new ArrayList();
-		for(int i=0;i<list.size();i++){
-			List new_retu_sm = new ArrayList();
-			User user_list_zxc = (User) list.get(i);
-			String user_id = user_list_zxc.getId();
-			Share share_edit = (Share) sharedao.share_find_id(id, user_id, true).get(0);
-			User zxc = new User();
-			zxc.setAccount(user_list_zxc.getAccount());
-			zxc.setId(user_list_zxc.getId());
-			zxc.setPhoto(user_list_zxc.getPhoto());
-			zxc.setPassword(share_edit.getEditable());
-			new_retu_list.add(i, zxc); 
-		}
-		return new_retu_list; 
+		return list; 
 	}
 	@PutMapping("/share/{id}/editable/{userid}")
 	@ResponseBody

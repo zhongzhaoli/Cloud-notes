@@ -1,12 +1,11 @@
 package com.notes.Entity;
 
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
-import org.aspectj.weaver.AjAttribute.PrivilegedAttribute;
 
 @Entity
 public class Note {
@@ -17,10 +16,17 @@ public class Note {
 	private String content;
 	private String username;
 	private String userid;
-	private String sharelist;
 	private String time;
 	private String edit_time;
+	@Transient
+	private String qx;
 
+	public String getQx() {
+		return qx;
+	}
+	public void setQx(String qx) {
+		this.qx = qx;
+	}
 	public String getEdit_time() {
 		return edit_time;
 	}
@@ -56,12 +62,6 @@ public class Note {
 	}
 	public void setUsername(String username) {
 		this.username = username;
-	}
-	public String getSharelist() {
-		return sharelist;
-	}
-	public void setSharelist(String sharelist) {
-		this.sharelist = sharelist;
 	}
 	public String getTime() {
 		return time;
