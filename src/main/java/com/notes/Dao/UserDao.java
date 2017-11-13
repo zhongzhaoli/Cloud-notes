@@ -21,7 +21,6 @@ import org.springframework.stereotype.Repository;
 import com.notes.Entity.Note;
 import com.notes.Entity.User;
 import com.notes.Util.ServiceException;
-import com.notes.Util.ShareSplit;
 import com.notes.Util.UTF8;
 
 //组件
@@ -39,26 +38,19 @@ public class UserDao {
 	}
 	
 	@Autowired
-	private NoteDao notedao;
+	private BaseDao basedao;
 	
 	User users = new User();
 	UTF8 utf8 = new UTF8();
 	Note notes = new Note();
-	ShareSplit sharesplit = new ShareSplit();
 	
 	//找个人信息(account)
 	public User findUser(String account){
 		if(account != null){
 			 DetachedCriteria dc = DetachedCriteria.forClass(User.class); //离线查询
 			 dc.add(Property.forName("account").eq(account));
-			 Criteria criteria = dc.getExecutableCriteria(getSession());
-			 List list = criteria.list();
-			 if(list != null && list.size() > 0){
-				 return (User)list.get(0);
-			 }
-			 else{
-				 return null;
-			 }
+			 List list = basedao.for_User(dc);
+			 return basedao.get_list_user(list);
 		}
 		else{
 			throw new ServiceException("account","not.get.account");
@@ -69,14 +61,8 @@ public class UserDao {
 		if(id != null){
 			 DetachedCriteria dc = DetachedCriteria.forClass(User.class); //离线查询
 			 dc.add(Property.forName("id").eq(id));
-			 Criteria criteria = dc.getExecutableCriteria(getSession());
-			 List list = criteria.list();
-			 if(list != null && list.size() > 0){
-				 return (User)list.get(0);
-			 }
-			 else{
-				 return null;
-			 }
+			 List list = basedao.for_User(dc);
+			 return basedao.get_list_user(list);
 		}
 		else{
 			throw new ServiceException("account","not.get.account");
@@ -87,14 +73,8 @@ public class UserDao {
 		DetachedCriteria dc = DetachedCriteria.forClass(User.class); //离线查询
 		//ANYWHERE 查出所有
 		dc.add(Property.forName("account").like(keyword,MatchMode.ANYWHERE));
-		 Criteria criteria = dc.getExecutableCriteria(getSession());
-		 List list = criteria.list();
-		 if(list != null && list.size() > 0){
-			 return list;
-		 }
-		 else{
-			 return null;
-		 }
+		 List list = basedao.for_User(dc);
+		 return basedao.get_list_all(list);
 	}
 	//查找出所有信息 并 进行覆盖
 	public void copyUser(User user){

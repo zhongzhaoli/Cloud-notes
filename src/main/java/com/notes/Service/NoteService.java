@@ -1,22 +1,13 @@
 package com.notes.Service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Property;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Service;
 
 import com.notes.Controller.NoteForm;
 import com.notes.Dao.NoteDao;
@@ -26,10 +17,7 @@ import com.notes.Entity.Share;
 import com.notes.Util.ServiceException;
 import com.notes.Util.Time;
 
-import ch.qos.logback.core.pattern.parser.Node;
-
-@Component
-@Transactional
+@Service
 public class NoteService {
 
 	@Autowired
@@ -94,14 +82,10 @@ public class NoteService {
 		if(note_id_list!=null){
 			List note = new ArrayList();
 			for(int i=0;i<note_id_list.size();i++){
-				Share note_id_ty_share = (Share) note_id_list.get(i);
-				String note_id = note_id_ty_share.getNode();
-				Note notesz= (Note) notedao.findNote_id(note_id).get(0);
-				//share_list 充当 editable
-				Note uio = new Note();
-				BeanUtils.copyProperties(notesz,uio);
- 				uio.setSharelist(note_id_ty_share.getEditable());
-				note.add(i, uio);
+				String node_id = ((Share) note_id_list.get(i)).getNode();
+				Note node = (Note) (notedao.findNote_id(node_id).get(0));
+				node.setQx(((Share) note_id_list.get(i)).getEditable());
+				note.add(node);
 			}
 			return note;
 		}

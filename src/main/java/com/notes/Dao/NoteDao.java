@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
@@ -14,10 +15,12 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.notes.Entity.Note;
+import com.notes.Entity.Share;
 import com.notes.Util.ServiceException;
 import com.notes.Util.Time;
 
@@ -28,10 +31,14 @@ import ch.qos.logback.core.joran.util.beans.BeanUtil;
 //组件
 @Component
 //事务管理器
-@Repository //据访问层
 @Transactional
 public class NoteDao {
 
+	@Autowired
+	private BaseDao basedao;
+	@Autowired
+	private ShareDao sharedao;
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -42,12 +49,11 @@ public class NoteDao {
 	Note notes = new Note();
 	//查找所有的笔记(通过用户名)
 	public List findAllNotes(String a){
-		 DetachedCriteria dc = DetachedCriteria.forClass(Note.class); //离线查询
+		 DetachedCriteria dc = DetachedCriteria.forClass(Note.class);
 		 dc.add(Property.forName("username").eq(a));
 		 dc.addOrder(Order.desc("time"));
-		 Criteria criteria = dc.getExecutableCriteria(getSession());
-		 List list = criteria.list();
-		 if(list != null && list.size() > 0 && !list.equals("[]")){
+		 List list = basedao.for_Note(dc);
+		 if(list != null && list.size() > 0){
 			 return list;
 		 }
 		 else{
@@ -59,13 +65,8 @@ public class NoteDao {
 		if(!id.equals(null)){
 			DetachedCriteria dc = DetachedCriteria.forClass(Note.class);
 			dc.add(Property.forName("id").eq(id));
-			Criteria criteria = dc.getExecutableCriteria(getSession());
-			List list = criteria.list();
-			if(list != null && list.size() > 0){
-				return (List) list;
-			}else{
-				return null;	
-			}
+			List list = basedao.for_Note(dc);
+			return basedao.get_list_all(list);
 		}else{
 			throw new ServiceException("note","noteId.is.null");
 		}

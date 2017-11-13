@@ -2,6 +2,7 @@ package com.notes.Entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity  //表明该类是ejb的实体bean
 public class User {
@@ -20,7 +21,16 @@ public class User {
 	private String mood;
 	//是否是第三方登录
 	private String wxine;
+	@Transient
+	private String qx;
 	
+	
+	public String getQx() {
+		return qx;
+	}
+	public void setQx(String qx) {
+		this.qx = qx;
+	}
 	public String getWxine() {
 		return wxine;
 	}

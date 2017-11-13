@@ -84,7 +84,7 @@ function set_share_note_id(z){
 			if(e!=null&&e!=""){
 				for(var i = 0; i < e.length; i++){
 					var lock;
-					if(e[i].password == "true"){
+					if(e[i].qx == "true"){
 						lock = "lock_open";
 					}
 					else{
