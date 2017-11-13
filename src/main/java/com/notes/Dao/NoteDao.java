@@ -44,15 +44,10 @@ public class NoteDao {
 	public List findAllNotes(String a){
 		 DetachedCriteria dc = DetachedCriteria.forClass(Note.class); //离线查询
 		 dc.add(Property.forName("username").eq(a));
-		 dc.addOrder(Order.desc("edit_time"));
+		 dc.addOrder(Order.desc("time"));
 		 Criteria criteria = dc.getExecutableCriteria(getSession());
 		 List list = criteria.list();
 		 if(list != null && list.size() > 0 && !list.equals("[]")){
-			 int i;
-			 for(i = 0; i < list.size();i++){
-				 Note new_time = (Note) list.get(i);
-				 new_time.setTime(new_time.getTime().substring(0,10));
-			 }
 			 return list;
 		 }
 		 else{
@@ -93,8 +88,7 @@ public class NoteDao {
 		copyNote(note);
 		notes.setTitle(title);
 		notes.setContent(content);
-		notes.setTime(Time.timestamp().substring(0,10));
-		notes.setEdit_time(Time.timestamp());
+		notes.setTime(Time.timestamp());
 		getSession().merge(notes);
 	}
 	//修改笔记2

@@ -8,8 +8,8 @@ import org.apache.catalina.startup.HomesUserDatabase;
 
 public class Time {
 	
-	public static String timestamp() {
-		return new Timestamp(System.currentTimeMillis()).toString();
+	public static Timestamp timestamp() {
+		return new Timestamp(System.currentTimeMillis());
 	}
 	
 	public String gettime_more(){

@@ -18,15 +18,9 @@ public class Note {
 	private String username;
 	private String userid;
 	private String sharelist;
-	private String time;
-	private String edit_time;
+	@Column(name = "time", nullable = false, length = 19)
+	private Timestamp time;
 
-	public String getEdit_time() {
-		return edit_time;
-	}
-	public void setEdit_time(String edit_time) {
-		this.edit_time = edit_time;
-	}
 	public String getUserid() {
 		return userid;
 	}
@@ -63,10 +57,10 @@ public class Note {
 	public void setSharelist(String sharelist) {
 		this.sharelist = sharelist;
 	}
-	public String getTime() {
+	public Timestamp getTime() {
 		return time;
 	}
-	public void setTime(String time) {
+	public void setTime(Timestamp time) {
 		this.time = time;
 	}
 	

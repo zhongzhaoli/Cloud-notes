@@ -53,8 +53,7 @@ public class NoteService {
 		note.setContent(noteForm.getContent());
 		note.setUsername((String) req.getSession().getAttribute("user_name"));
 		note.setUserid((String) req.getSession().getAttribute("user_id"));
-		note.setTime(time.timestamp().substring(0,19));
-		note.setEdit_time(time.timestamp());
+		note.setTime(time.timestamp());
 		noteDao.createNote(note);
 		return note;
 	}

@@ -89,7 +89,7 @@
                     </div>
                     <div class="notes_footer">
                         <div class="notes_footer_left">
-                            <span th:text="${notes.time}"></span>
+                            <span th:text="${#dates.format(notes.time, 'yyyy-MM-dd')}"></span>
                         </div>
                         <div class="notes_footer_right">
                             <span>
