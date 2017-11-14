@@ -26,7 +26,5 @@ nbdist/
 .classpath
 target/classes/META-INF/MANIFEST.MF
 target/classes/META-INF/maven/com.user/Cloud-notes/pom.properties
-src/main/resources/static/images/note/*.jpg
-src/main/resources/static/images/note/*.png
-src/main/resources/static/images/note/*.gif
-src/main/resources/static/images/note/*.jpeg
+src/main/resources/static/images/note/*
+src/main/resources/static/images/upload/*

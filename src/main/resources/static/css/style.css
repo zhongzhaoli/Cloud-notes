@@ -516,6 +516,9 @@ li{
   border-radius: 0px !important;
   box-shadow: none !important;
 }
+.content_title[disabled]{
+	background-color: #fff;
+}
 .user_photo_div > .sess_list{
   width:120px;
   /* height: 122px; */

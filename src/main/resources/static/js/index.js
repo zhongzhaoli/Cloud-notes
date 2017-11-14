@@ -352,9 +352,11 @@ var ed_change = {
 		ed_change.to_html($(that).find(".notes_footer_right div")[0].innerHTML)
 		if($(that).find("#can_change").attr("name") == "false"){
 			$("#editor").attr("contenteditable","false");
+			$(".content_title").attr("disabled", "disabled");
 		}
 		else{
 			$("#editor").attr("contenteditable","true");
+			$(".content_title").removeAttr("disabled")
 		}
 	},
 	//日期不足10补全0
