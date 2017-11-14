@@ -104,6 +104,9 @@ li{
   /* border-bottom: 1px rgba(0,0,0,.12) solid; */
   border-radius: 0;
 }
+.editor_input img{
+  cursor: zoom-in;
+}
 .pd0{
 	padding:0;
 }
@@ -402,7 +405,7 @@ li{
   color: #82828c;
   font-size: 12px;
   margin-top: 9px;
-  /* display: -webkit-box; */
+  display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
