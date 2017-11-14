@@ -45,6 +45,10 @@ $(document).ready(function () {
 	create_new_notes();
 	Ctrl_s_save();
 	img_big();
+	content_main_h();
+	window.onresize = function(){
+		content_main_h();
+	}
 	$("#share_username").on('keydown',function(){
 		share_js.keydown_a(this);
 	})
@@ -124,6 +128,14 @@ function return_is_object(a, b, c) {
 			return "success";
 		}
 	}
+}
+//content_main 自适应高度
+function content_main_h(){
+	var zw = $(".mui--appbar-height")[0].offsetHeight;
+	var tw = $(".content_title")[0].offsetHeight;
+	var qw = $(".btn-toolbar")[0].offsetHeight;
+	var bh = document.body.clientHeight;
+	$(".content_main")[0].style.height=bh - zw - tw - qw + "px";
 }
 //删除笔记
 function delete_notes(a) {
