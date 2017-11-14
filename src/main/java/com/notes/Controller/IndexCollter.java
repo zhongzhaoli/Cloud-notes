@@ -31,7 +31,7 @@ public class IndexCollter {
 	Share share = new Share();
 	
 	//首页
-	@GetMapping("/index")
+	@GetMapping("/")
 	public String index(Model model,HttpServletRequest req){
 		String a = (String) req.getSession().getAttribute("user_name");
 		String b = (String) req.getSession().getAttribute("user_id");
