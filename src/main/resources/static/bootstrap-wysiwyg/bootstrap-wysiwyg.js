@@ -85,16 +85,21 @@
 				}
 			},
 			insertFiles = function (files) {
+				var file = files[0];
+				var src;
 				editor.focus();
 				$.each(files, function (idx, fileInfo) {
 					if (/^image\//.test(fileInfo.type)) {
 						$.when(readFileIntoDataUrl(fileInfo)).done(function (dataUrl) {
-							execCommand('insertimage', dataUrl);
+							var rel_res = dataUrl.split(";base64,")[1];
+							src = ed_change.findimg(rel_res);
+							ed_change.editor_change_span2();
+							execCommand('insertimage', src);
 						}).fail(function (e) {
 							options.fileUploadError("file-reader", e);
 						});
 					} else {
-						options.fileUploadError("unsupported-file-type", fileInfo.type);
+						alert("只能选择图片");
 					}
 				});
 			},

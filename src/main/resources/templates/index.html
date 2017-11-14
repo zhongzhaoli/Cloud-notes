@@ -16,6 +16,7 @@
     <script src="../static/js/script.js" th:src="@{/js/script.js}"></script>
     <script src="../static/js/share.js" th:src="@{/js/share.js}"></script>
     <script src="../static/js/wysiwyg.js" th:src="@{/js/wysiwyg.js}"></script>
+    <script src="../static/js/viewer.min.js" th:src="@{/js/viewer.min.js}"></script>
     <link rel="stylesheet" th:href="@{/css/fakeLoader.css}">
 
 
@@ -36,6 +37,7 @@
 
     <link href="../static/css/style.css" rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <link href="../static/css/viewer.min.css" th:href="@{/css/viewer.min.css}" rel="stylesheet">
     
 
 </head>
@@ -93,7 +95,7 @@
                         </div>
                         <div class="notes_footer_right">
                             <span>
-                            	<div style="display:none" th:text="${notes.content}"></div>
+                            	<div style="display:none" th:utext="${notes.content}"></div>
                                 <i class="fa fa-trash-o fa-lg" th:data-join="@{/note/{id}(id=${notes.id})}" onclick="delete_notes(this)"></i>
                                 <i class="fa fa-share-alt fa-lg" data-toggle="modal" data-target=".bs-example-modal-lg3" th:data-join="@{{id}(id=${notes.id})}" onclick="set_share_note_id(this)"></i>
                             </span>
@@ -117,12 +119,12 @@
                         <span></span>
                     </div>
                     <div class="notes_footer">
-                        <div class="notes_footer_left">
+                        <div class="notes_footer_left come_form_sb">
                             <span th:text="来自+'&nbsp;'+${notes.username}+'&nbsp;'+的分享"></span>
                         </div>
                         <div class="notes_footer_right">
                             <span>
-                            	<div style="display:none" th:text="${notes.content}"></div>
+                            	<div style="display:none" th:utext="${notes.content}"></div>
                             	<i class="fa fa-trash-o fa-lg" th:data-join="@{/note/{id}(id=${notes.id})}" style="display:none"></i>
                             </span>
                         </div>
@@ -199,8 +201,10 @@
                     </div>
 
                     <div class="btn-group">
-                        <a class="btn" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;" onclick="insertphoto(this)"><i class="icon-picture"></i></a>
-                        <input type="file" style="display:none" onchange="insertphoto_onchange(this)" />
+<!--                         <a class="btn" style="border-top-right-radius: 4px;border-bottom-right-radius: 4px;"> onclick="insertphoto(this)"<i class="icon-picture"></i></a> -->
+                        <!-- <input type="file" style="display:none" onchange="insertphoto_onchange(this)" /> -->
+                                  <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="icon-picture"></i></a>
+          <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
                     </div>
                     <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
                     <div class="save">

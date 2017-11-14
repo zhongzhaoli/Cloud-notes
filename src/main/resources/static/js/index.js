@@ -40,21 +40,11 @@ function outLogin() {
 		});
 	}
 }
-//note列表  content的东西
-function change_li_innerText(){
-	var notes_footer_right = $(".notes_footer_right");
-	[].forEach.call(notes_footer_right,function(e){
-		var innerText = $(e).find("div").first()[0].innerText;
-		$(e).find("div").first().html(innerText);
-		var get_text = $(e).find("div").first()[0].innerText;
-		$(e).parent().parent().find(".notes_main span")[0].innerHTML = get_text;
-	})
-}
 //空白区域点击
 $(document).ready(function () {
 	create_new_notes();
-	change_li_innerText();
 	Ctrl_s_save();
+	img_big();
 	$("#share_username").on('keydown',function(){
 		share_js.keydown_a(this);
 	})
@@ -117,62 +107,6 @@ function insertphoto(z){
 	var file = $(z).parent().find("input")[0];
 	file.click();
 }
-//插入图片 onchange
-function insertphoto_onchange(aa){
-	var file = $(aa)[0].files[0];
-	//判断是否是图片类型
-	if (!/image\/\w+/.test(file.type)) {
-		alert("只能选择图片");
-		return false;
-	}
-	else{
-		var reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onload = function (e) {
-			var res = this.result;
-			var rel_res = res.split(";base64,")[1];
-			var src = ed_change.findimg(rel_res);
-			
-			// $("<img src="+src+">").appendTo($("#editor"));
-			add_photo(src);
-			ed_change.editor_change_span2();
-            ed_change.update();
-		}
-	}
-}
-//增加图片在指定的位置
-function add_photo(src){
-    var sel, range;
-	sel = window.getSelection();
-	if (sel.getRangeAt && sel.rangeCount) {
-		range = sel.getRangeAt(0);
-		range.deleteContents();
-
-		// Range.createContextualFragment() would be useful here but is
-		// only relatively recently standardized and is not supported in
-		// some browsers (IE9, for one)
-		var Div = document.createElement("div");
-		var el = document.createElement("img");
-		el.src = src;
-		Div.appendChild(el);
-		var frag = document.createDocumentFragment(), node, lastNode;
-		while ( (node = Div.firstChild) ) {
-			lastNode = frag.appendChild(node);
-			// lastNode = el;
-		}
-		range.insertNode(frag);
-
-		// Preserve the selection
-		if (lastNode) {
-			range = range.cloneRange();
-			range.setStartAfter(lastNode);
-			range.collapse(true);
-			sel.removeAllRanges();
-			sel.addRange(range);
-		}
-	}
-}
-
 //根据返回数据的类型 给予提醒
 function return_is_object(a, b, c) {
 	if (typeof (a) === "object") {
@@ -235,6 +169,16 @@ function create_notes_ajax(content) {
 		}
 	})
 }
+//双击图片放大
+function img_big(){
+		var viewer = new Viewer(document.getElementById("editor"), {
+			url: 'data-original',
+			show: function (){  
+		         viewer.update();  
+			}
+		});
+}
+
 //更换头像 ajax
 function onchan(aa) {
 	var file = $(aa)[0].files[0];
@@ -326,8 +270,14 @@ var ed_change = {
 			var note_title = $(".notes_li").first().find(".notes_li_title");
 			$(".content_title").val($(note_title).text());
 			var note_cont = $(".notes_li").first().find(".notes_main span");
-			$(".editor_input").text();
-			ed_change.to_html($(".notes_footer_right div")[0].innerText);
+			ed_change.to_html($(".notes_footer_right div")[0].innerHTML);
+			
+			var notes_footer_right = $(".notes_footer_right");
+			[].forEach.call(notes_footer_right,function(e){
+				var get_text = $(e).find("div").first()[0].innerText;
+				$(e).parent().parent().find(".notes_main span")[0].innerText = get_text;
+			});
+
 		}
 	},
 	//li的onclick

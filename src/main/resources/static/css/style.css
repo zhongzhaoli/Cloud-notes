@@ -113,6 +113,11 @@ li{
 .editor_input ol li{
   list-style-type: decimal !important;
 }
+.come_form_sb{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 #sidedrawer {
   position: fixed;
   top: 64px;
