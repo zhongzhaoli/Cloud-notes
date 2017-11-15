@@ -411,7 +411,7 @@ li{
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  width:100px;
+  width:100%;
 }
 .save{
     float: right;
