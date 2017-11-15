@@ -95,6 +95,7 @@
 							src = ed_change.findimg(rel_res);
 							ed_change.editor_change_span2();
 							execCommand('insertimage', src);
+							$("body").click();
 						}).fail(function (e) {
 							options.fileUploadError("file-reader", e);
 						});

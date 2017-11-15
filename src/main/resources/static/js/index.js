@@ -44,7 +44,13 @@ function outLogin() {
 $(document).ready(function () {
 	create_new_notes();
 	Ctrl_s_save();
-	img_big();
+	$(document).on('click',function(){
+		$("#editor").find("img").on('click',function(){
+			var input = document.getElementById("editor");
+			img_big(input);
+		})
+	})
+	$("body").click();
 	content_main_h();
 	window.onresize = function(){
 		content_main_h();
@@ -182,8 +188,8 @@ function create_notes_ajax(content) {
 	})
 }
 //双击图片放大
-function img_big(){
-		var viewer = new Viewer(document.getElementById("editor"), {
+function img_big(input){
+		var viewer = new Viewer(input, {
 			url: 'data-original',
 			show: function (){  
 		         viewer.update();  
