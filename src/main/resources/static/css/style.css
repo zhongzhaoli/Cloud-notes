@@ -104,7 +104,7 @@ li{
   /* border-bottom: 1px rgba(0,0,0,.12) solid; */
   border-radius: 0;
 }
-.editor_input img{
+.editor_input img{ 
   cursor: zoom-in;
 }
 .pd0{
@@ -410,7 +410,7 @@ li{
   -webkit-line-clamp: 1;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;*
+  text-overflow: ellipsis;
   width:100px;
 }
 .save{
